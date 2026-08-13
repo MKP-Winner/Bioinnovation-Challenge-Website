@@ -1,332 +1,446 @@
-(function () {
-  "use strict";
+const page =
+  location.pathname.split('/').pop() ||
+  'index.html';
 
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ------------------------------------------------------------------ */
-  /* Nav: scroll shadow, mobile toggle, active link                      */
-  /* ------------------------------------------------------------------ */
-  var nav = document.getElementById("nav");
-  var navToggle = document.getElementById("navToggle");
-  var navLinks = document.getElementById("navLinks");
+/* =========================
+   ACTIVE NAVIGATION
+========================= */
 
-  function onScroll() {
-    if (!nav) return;
-    if (window.scrollY > 8) nav.classList.add("scrolled");
-    else nav.classList.remove("scrolled");
-  }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+document
+  .querySelectorAll('.nav-links a')
+  .forEach(link => {
 
-  if (navToggle && navLinks) {
-    navToggle.addEventListener("click", function () {
-      var open = navLinks.classList.toggle("open");
-      navToggle.classList.toggle("open", open);
-      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    navLinks.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        navLinks.classList.remove("open");
-        navToggle.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
+    const href =
+      link.getAttribute('href');
 
-  var sectionLinks = document.querySelectorAll(".nav-link[href*='#']");
-  var sections = [];
-  sectionLinks.forEach(function (link) {
-    var id = link.getAttribute("href").split("#")[1];
-    var el = document.getElementById(id);
-    if (el) sections.push({ id: id, el: el, link: link });
-  });
-  if (sections.length && "IntersectionObserver" in window) {
-    var navObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          var match = sections.find(function (s) { return s.el === entry.target; });
-          if (!match) return;
-          if (entry.isIntersecting) {
-            sections.forEach(function (s) { s.link.classList.remove("active"); });
-            match.link.classList.add("active");
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px" }
-    );
-    sections.forEach(function (s) { navObserver.observe(s.el); });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Scroll reveal                                                       */
-  /* ------------------------------------------------------------------ */
-  var revealEls = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !reduceMotion) {
-    var revealObserver = new IntersectionObserver(
-      function (entries, obs) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    revealEls.forEach(function (el) { revealObserver.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add("in-view"); });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Animated stat counters                                              */
-  /* ------------------------------------------------------------------ */
-  var counters = document.querySelectorAll(".stat-num[data-count]");
-  function animateCounter(el) {
-    var target = parseFloat(el.getAttribute("data-count"));
-    var suffix = el.getAttribute("data-suffix") || "";
-    var prefix = el.getAttribute("data-prefix") || "";
-    var decimals = (el.getAttribute("data-count").split(".")[1] || "").length;
-    if (reduceMotion) {
-      el.textContent = prefix + target + suffix;
-      return;
+    if (
+      href === page ||
+      (page === '' && href === 'index.html')
+    ) {
+      link.classList.add('active');
     }
-    var duration = 1200;
-    var start = null;
-    function step(ts) {
-      if (start === null) start = ts;
-      var progress = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var val = target * eased;
-      el.textContent = prefix + val.toFixed(decimals) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  if (counters.length && "IntersectionObserver" in window) {
-    var counterObserver = new IntersectionObserver(
-      function (entries, obs) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    counters.forEach(function (el) { counterObserver.observe(el); });
-  }
 
-  /* ------------------------------------------------------------------ */
-  /* Gene cards — expand on click / keyboard                             */
-  /* ------------------------------------------------------------------ */
-  var geneCards = document.querySelectorAll(".gene-card");
-  geneCards.forEach(function (card) {
-    function toggle() {
-      var isOpen = card.classList.toggle("open");
-      card.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      var more = card.querySelector(".gene-more");
-      if (more) more.textContent = isOpen ? "− collapse" : "+ read more";
-    }
-    card.addEventListener("click", toggle);
-    card.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
-    });
   });
 
-  /* ------------------------------------------------------------------ */
-  /* Genome-browser sequence track (hero canvas)                         */
-  /* ------------------------------------------------------------------ */
-  var canvas = document.getElementById("sequenceCanvas");
-  if (canvas) {
-    var ctx = canvas.getContext("2d");
-    var bases = ["A", "T", "C", "G"];
-    var baseColor = { A: "#2DD4C4", T: "#8B7CF6", C: "#F0A857", G: "#EF6F8E" };
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var colWidth = 16;
-    var offset = 0;
-    var seq = [];
-    var highlightIndex = 0;
 
-    function seedSequence(count) {
-      seq = [];
-      for (var i = 0; i < count; i++) {
-        seq.push(bases[Math.floor(Math.random() * bases.length)]);
-      }
-      highlightIndex = Math.floor(count * 0.62);
-    }
+/* =========================
+   SCROLL REVEAL
+========================= */
 
-    function resize() {
-      var rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var cols = Math.ceil(rect.width / colWidth) + 6;
-      seedSequence(cols);
-    }
+const observer =
+  new IntersectionObserver(
+    entries => {
 
-    function draw() {
-      var rect = canvas.getBoundingClientRect();
-      var w = rect.width, h = rect.height;
-      ctx.clearRect(0, 0, w, h);
+      entries.forEach(entry => {
 
-      var axisY = h * 0.62;
-      ctx.strokeStyle = "rgba(201,211,224,0.14)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, axisY);
-      ctx.lineTo(w, axisY);
-      ctx.stroke();
-
-      ctx.font = "12px 'IBM Plex Mono', monospace";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      for (var i = 0; i < seq.length; i++) {
-        var x = i * colWidth - offset;
-        if (x < -colWidth || x > w + colWidth) continue;
-        var isHi = i === highlightIndex || i === highlightIndex + 7;
-        var letter = seq[i];
-        var color = baseColor[letter];
-
-        // tick
-        ctx.strokeStyle = isHi ? color : "rgba(201,211,224,0.18)";
-        ctx.lineWidth = isHi ? 2 : 1;
-        ctx.beginPath();
-        ctx.moveTo(x, axisY - (isHi ? 14 : 8));
-        ctx.lineTo(x, axisY + (isHi ? 14 : 8));
-        ctx.stroke();
-
-        if (isHi) {
-          ctx.save();
-          ctx.shadowColor = color;
-          ctx.shadowBlur = 10;
-          ctx.fillStyle = color;
-          ctx.beginPath();
-          ctx.arc(x, axisY, 4.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
 
-        ctx.fillStyle = isHi ? color : "rgba(201,211,224,0.32)";
-        ctx.fillText(letter, x, axisY - 24);
-      }
-
-      // baseline coordinate ticks label
-      ctx.fillStyle = "rgba(201,211,224,0.3)";
-      ctx.font = "10px 'IBM Plex Mono', monospace";
-      ctx.textAlign = "left";
-      ctx.fillText("5\u2032", 6, axisY + 26);
-      ctx.textAlign = "right";
-      ctx.fillText("3\u2032", w - 6, axisY + 26);
-    }
-
-    function loop() {
-      offset += 0.35;
-      if (offset >= colWidth) {
-        offset = 0;
-        seq.shift();
-        seq.push(bases[Math.floor(Math.random() * bases.length)]);
-        highlightIndex = Math.max(0, highlightIndex - 1);
-        if (highlightIndex <= 2) {
-          highlightIndex = Math.floor(seq.length * 0.62);
-        }
-      }
-      draw();
-      if (!reduceMotion) requestAnimationFrame(loop);
-    }
-
-    resize();
-    draw();
-    window.addEventListener("resize", resize);
-    if (!reduceMotion) requestAnimationFrame(loop);
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* FAQ accordion                                                        */
-  /* ------------------------------------------------------------------ */
-  var faqItems = document.querySelectorAll(".faq-item");
-  faqItems.forEach(function (item) {
-    var question = item.querySelector(".faq-question");
-    if (!question) return;
-    question.addEventListener("click", function () {
-      var isOpen = item.classList.contains("open");
-      faqItems.forEach(function (other) {
-        other.classList.remove("open");
-        var q = other.querySelector(".faq-question");
-        if (q) q.setAttribute("aria-expanded", "false");
       });
-      if (!isOpen) {
-        item.classList.add("open");
-        question.setAttribute("aria-expanded", "true");
-      }
-    });
+
+    },
+    {
+      threshold:0.12
+    }
+  );
+
+
+document
+  .querySelectorAll('.reveal')
+  .forEach(el => {
+
+    observer.observe(el);
+
   });
 
-  /* ------------------------------------------------------------------ */
-  /* Risk pattern explorer                                               */
-  /* ------------------------------------------------------------------ */
-  var RISK_MAP = {
-    e2e2: { label: "Below-average population risk", pct: 12, color: "var(--teal)",
-      desc: "The ε2 allele is linked to somewhat lower average risk and may also delay typical age of onset, though this genotype is uncommon." },
-    e2e3: { label: "Below-average population risk", pct: 20, color: "var(--teal)",
-      desc: "Carrying one ε2 copy alongside ε3 is generally associated with slightly lower than average population risk." },
-    e3e3: { label: "Average population risk", pct: 35, color: "var(--teal)",
-      desc: "The most common APOE genotype. Population studies use this as the baseline against which other genotypes are compared." },
-    e2e4: { label: "Slightly increased risk", pct: 48, color: "var(--amber)",
-      desc: "The ε2 copy appears to partially offset the ε4 copy, so risk is elevated but less than ε3/ε4 in most studies." },
-    e3e4: { label: "Increased risk (~2–3× average)", pct: 66, color: "var(--amber)",
-      desc: "One ε4 copy is consistently linked to roughly two to three times average population risk for late-onset Alzheimer's." },
-    e4e4: { label: "Substantially increased risk (~8–12× average)", pct: 92, color: "var(--rose)",
-      desc: "Two ε4 copies show the strongest common genetic association with late-onset Alzheimer's, though outcomes still vary widely between individuals." }
+
+/* =========================
+   GENE INFORMATION
+========================= */
+
+const geneInfo = {
+
+  APOE:{
+    title:'APOE ε4',
+    type:'Risk-associated variant',
+    text:
+      'APOE ε4 is the best-known genetic risk factor for late-onset Alzheimer’s. It changes risk; it does not by itself diagnose Alzheimer’s or guarantee that someone will develop it.'
+  },
+
+  APP:{
+    title:'APP',
+    type:'Rare deterministic gene',
+    text:
+      'Rare inherited changes in APP can cause a form of dominantly inherited Alzheimer’s disease, often with younger onset.'
+  },
+
+  PSEN1:{
+    title:'PSEN1',
+    type:'Rare deterministic gene',
+    text:
+      'Rare PSEN1 variants can cause dominantly inherited Alzheimer’s disease and are a major cause of inherited early-onset disease.'
+  },
+
+  PSEN2:{
+    title:'PSEN2',
+    type:'Rare deterministic gene',
+    text:
+      'Rare PSEN2 variants can cause dominantly inherited Alzheimer’s disease, although they are less common than PSEN1 changes.'
+  },
+
+  TREM2:{
+    title:'TREM2',
+    type:'Risk-associated gene',
+    text:
+      'Variants in TREM2 are among the genes studied for their relationship to Alzheimer’s risk and microglial immune function.'
+  }
+
+};
+
+
+const geneDetails =
+  document.getElementById('geneDetails');
+
+
+document
+  .querySelectorAll('[data-gene]')
+  .forEach(btn => {
+
+    btn.addEventListener(
+      'click',
+      () => {
+
+        const key =
+          btn.dataset.gene;
+
+        const info =
+          geneInfo[key];
+
+        if (
+          !info ||
+          !geneDetails
+        ) {
+          return;
+        }
+
+        geneDetails.innerHTML = `
+
+          <div class="eyebrow">
+            Selected marker
+          </div>
+
+          <h3>
+            ${info.title}
+          </h3>
+
+          <p>
+            <strong>
+              ${info.type}
+            </strong>
+          </p>
+
+          <p
+            style="
+              margin-top:10px;
+              color:var(--muted)
+            "
+          >
+            ${info.text}
+          </p>
+
+        `;
+
+        geneDetails.scrollIntoView({
+          behavior:'smooth',
+          block:'center'
+        });
+
+      }
+    );
+
+  });
+
+
+/* =========================
+   APOE INTERACTION
+========================= */
+
+const copies =
+  document.getElementById('copies');
+
+const copiesValue =
+  document.getElementById('copiesValue');
+
+const riskFill =
+  document.getElementById('riskFill');
+
+const riskMessage =
+  document.getElementById('riskMessage');
+
+
+if (
+  copies &&
+  copiesValue &&
+  riskFill &&
+  riskMessage
+) {
+
+  const updateRisk = () => {
+
+    const n =
+      Number(copies.value);
+
+    copiesValue.textContent =
+      `${n} ${
+        n === 1
+          ? 'copy'
+          : 'copies'
+      }`;
+
+    const width =
+      n === 0
+        ? 18
+        : n === 1
+          ? 50
+          : 86;
+
+    riskFill.style.width =
+      width + '%';
+
+
+    if (n === 0) {
+
+      riskMessage.innerHTML = `
+
+        <strong>
+          APOE ε4 not selected
+        </strong>
+
+        This educational control does not
+        represent a clinical risk estimate.
+
+      `;
+
+    }
+
+    else if (n === 1) {
+
+      riskMessage.innerHTML = `
+
+        <strong>
+          One APOE ε4 copy selected
+        </strong>
+
+        APOE ε4 is associated with increased risk,
+        but the result cannot predict an individual outcome.
+
+      `;
+
+    }
+
+    else {
+
+      riskMessage.innerHTML = `
+
+        <strong>
+          Two APOE ε4 copies selected
+        </strong>
+
+        Two copies are associated with higher risk
+        than one copy, but genetics alone still cannot
+        determine whether Alzheimer’s will develop.
+
+      `;
+
+    }
+
   };
 
-  function computeRisk(genotype, familyHistory, ageOver65) {
-    var base = RISK_MAP[genotype] || RISK_MAP.e3e3;
-    var pct = base.pct;
-    var label = base.label;
-    var desc = base.desc;
-    var color = base.color;
-    var notes = [];
 
-    if (familyHistory) {
-      pct = Math.min(98, pct + 15);
-      notes.push("family history of early-onset disease raises the illustrative estimate further");
-      if (color === "var(--teal)") color = "var(--amber)";
-    }
-    if (ageOver65) {
-      pct = Math.min(98, pct + 5);
-      notes.push("risk in population studies rises with age generally");
-    }
-    if (notes.length) {
-      desc += " This illustration also factors in that " + notes.join(" and ") + ".";
-    }
-    return { label: label, desc: desc, pct: pct, color: color };
+  copies.addEventListener(
+    'input',
+    updateRisk
+  );
+
+  updateRisk();
+
+}
+
+
+/* =========================
+   DEMO DATABASE
+========================= */
+
+const sampleRecords = [
+
+  {
+    id:'DEMO-001',
+    sample:'Research Sample A',
+    gene:'APOE',
+    variant:'ε4',
+    status:'Research',
+    note:'Illustrative record only'
+  },
+
+  {
+    id:'DEMO-002',
+    sample:'Research Sample B',
+    gene:'APP',
+    variant:'Variant pending',
+    status:'Research',
+    note:'Illustrative record only'
+  },
+
+  {
+    id:'DEMO-003',
+    sample:'Research Sample C',
+    gene:'PSEN1',
+    variant:'Variant pending',
+    status:'Research',
+    note:'Illustrative record only'
+  },
+
+  {
+    id:'DEMO-004',
+    sample:'Research Sample D',
+    gene:'TREM2',
+    variant:'Variant pending',
+    status:'Research',
+    note:'Illustrative record only'
   }
-  window.LocusRisk = { compute: computeRisk, map: RISK_MAP };
 
-  var genotypeEl = document.getElementById("genotype");
-  var familyHistoryEl = document.getElementById("familyHistory");
-  var ageOver65El = document.getElementById("ageOver65");
-  var riskBadge = document.getElementById("riskBadge");
-  var riskDesc = document.getElementById("riskDesc");
-  var riskMeter = document.getElementById("riskMeter");
+];
 
-  function updateRiskUI() {
-    if (!genotypeEl || !riskBadge) return;
-    var result = computeRisk(genotypeEl.value, familyHistoryEl.checked, ageOver65El.checked);
-    riskBadge.textContent = result.label;
-    riskBadge.style.color = result.color;
-    riskDesc.textContent = result.desc;
-    riskMeter.style.width = result.pct + "%";
-    riskMeter.style.background = result.color;
+
+const dbTable =
+  document.getElementById('dbTable');
+
+const dbSearch =
+  document.getElementById('dbSearch');
+
+const dbFilter =
+  document.getElementById('dbFilter');
+
+
+function renderDatabase(){
+
+  if (!dbTable) {
+    return;
   }
-  [genotypeEl, familyHistoryEl, ageOver65El].forEach(function (el) {
-    if (el) el.addEventListener("change", updateRiskUI);
-  });
-  if (genotypeEl) updateRiskUI();
-})();
+
+  const q =
+    (
+      dbSearch?.value ||
+      ''
+    ).toLowerCase();
+
+  const f =
+    dbFilter?.value ||
+    'All';
+
+
+  const rows =
+    sampleRecords.filter(record => {
+
+      const matchesText =
+        Object
+          .values(record)
+          .join(' ')
+          .toLowerCase()
+          .includes(q);
+
+      const matchesFilter =
+        f === 'All' ||
+        record.gene === f;
+
+      return (
+        matchesText &&
+        matchesFilter
+      );
+
+    });
+
+
+  dbTable.innerHTML =
+    rows.length
+
+      ? rows.map(record => `
+
+          <tr>
+
+            <td>
+              ${record.id}
+            </td>
+
+            <td>
+              ${record.sample}
+            </td>
+
+            <td>
+              <strong>
+                ${record.gene}
+              </strong>
+            </td>
+
+            <td>
+              ${record.variant}
+            </td>
+
+            <td>
+              ${record.status}
+            </td>
+
+            <td>
+              ${record.note}
+            </td>
+
+          </tr>
+
+        `).join('')
+
+      : `
+
+        <tr>
+
+          <td
+            colspan="6"
+            class="empty-state"
+          >
+            No matching records.
+          </td>
+
+        </tr>
+
+      `;
+
+}
+
+
+dbSearch?.addEventListener(
+  'input',
+  renderDatabase
+);
+
+dbFilter?.addEventListener(
+  'change',
+  renderDatabase
+);
+
+renderDatabase();
+
+
+/* =========================
+   FOOTER YEAR
+========================= */
+
+const year =
+  document.getElementById('year');
+
+if (year) {
+
+  year.textContent =
+    new Date().getFullYear();
+
+}
