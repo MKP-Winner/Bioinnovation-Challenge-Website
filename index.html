@@ -1,545 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOCUS — A colorful, in-depth guide to Alzheimer's and its genetics</title>
-<meta name="description" content="An educational guide to Alzheimer's disease: the biology, warning signs, stages, the genes researchers study most (APOE4, PSEN1, PSEN2, APP, TREM2), prevention research, diagnosis, and common myths.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Educational prototype exploring genetics and Alzheimer's disease research.">
+  <title>NeuroGene | Alzheimer's Genetics Explorer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo">
-      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="2" width="4" height="22" rx="2" fill="#2DD4C4"/>
-        <rect x="18" y="2" width="4" height="22" rx="2" fill="#8B7CF6" opacity="0.55"/>
-        <circle cx="6" cy="9" r="3" fill="#0B1220" stroke="#2DD4C4" stroke-width="1.6"/>
-      </svg>
-      LOCUS
+<header class="navbar">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark"></span>
+      <span>NeuroGene</span>
     </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="#about" class="nav-link">About</a>
-      <a href="#stages" class="nav-link">Stages</a>
-      <a href="#markers" class="nav-link">Genetics</a>
-      <a href="#prevention" class="nav-link">Prevention</a>
-      <a href="#diagnosis" class="nav-link">Diagnosis</a>
-      <a href="#faq" class="nav-link">FAQ</a>
-      <a href="#signs" class="btn btn-primary nav-cta">Warning signs →</a>
-    </div>
-  </div>
-</nav>
 
-<header class="hero" id="top">
-  <div class="hero-grid">
-    <div class="hero-copy reveal">
-      <span class="eyebrow">locus /ˈloʊ·kəs/ — the fixed position of a gene on a chromosome</span>
-      <h1>Reading the <span class="hl-teal">genetic loci</span> tied to <span class="hl-violet">Alzheimer's</span>, before symptoms do.</h1>
-      <p class="hero-sub">A colorful, in-depth guide to Alzheimer's disease — the biology, the warning signs, the genes researchers study most (APOE4, PSEN1, PSEN2, APP, TREM2), and the lifestyle factors linked to lower risk.</p>
-      <div class="hero-actions">
-        <a href="#about" class="btn btn-primary">Explore the science</a>
-        <a href="#signs" class="btn btn-ghost">See warning signs →</a>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="stat-num" data-count="7.4" data-suffix="M">0</div>
-          <div class="stat-label">Americans age 65+ living with Alzheimer's, 2026</div>
-        </div>
-        <div>
-          <div class="stat-num" data-count="11" data-suffix="%">0</div>
-          <div class="stat-label">of people 65+ affected — about 1 in 9</div>
-        </div>
-        <div>
-          <div class="stat-num" data-count="3" data-suffix="×">0</div>
-          <div class="stat-label">higher odds with one APOE ε4 copy, roughly</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-visual reveal">
-      <div class="browser-panel">
-        <div class="browser-bar">
-          <div class="browser-dots"><span></span><span></span><span></span></div>
-          <div class="browser-loc">chr19:44,905,754–44,909,393 · <b>APOE</b> locus</div>
-        </div>
-        <div class="track-wrap">
-          <canvas id="sequenceCanvas" aria-hidden="true"></canvas>
-          <div class="snp-callout">
-            <b>rs429358 / rs7412</b><br>the two SNPs whose combination defines the ε4 allele
-          </div>
-        </div>
-        <div class="locus-legend">
-          <div class="locus-row">
-            <span class="locus-dot" style="background:#8B7CF6"></span>
-            <span class="locus-gene">APOE4</span>
-            <span class="locus-loc">chr19q13.32</span>
-            <span class="locus-tag tag-violet">late-onset · common</span>
-          </div>
-          <div class="locus-row">
-            <span class="locus-dot" style="background:#F0A857"></span>
-            <span class="locus-gene">PSEN1</span>
-            <span class="locus-loc">chr14q24.2</span>
-            <span class="locus-tag tag-amber">early-onset · rare</span>
-          </div>
-          <div class="locus-row">
-            <span class="locus-dot" style="background:#5EC8F2"></span>
-            <span class="locus-gene">PSEN2</span>
-            <span class="locus-loc">chr1q42.13</span>
-            <span class="locus-tag tag-sky">early-onset · rare</span>
-          </div>
-          <div class="locus-row">
-            <span class="locus-dot" style="background:#EF6F8E"></span>
-            <span class="locus-gene">APP</span>
-            <span class="locus-loc">chr21q21.3</span>
-            <span class="locus-tag tag-rose">early-onset · rare</span>
-          </div>
-          <div class="locus-row">
-            <span class="locus-dot" style="background:#6EE7A8"></span>
-            <span class="locus-gene">TREM2</span>
-            <span class="locus-loc">chr6p21.1</span>
-            <span class="locus-tag tag-mint">late-onset · modifier</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">Alzheimer’s</a>
+      <a href="genetics.html">Genetics</a>
+      <a href="database.html">Database</a>
+    </nav>
   </div>
 </header>
 
-<!-- ABOUT ============================================================= -->
-<div class="section-shell" style="--glow-color: rgba(45,212,196,0.35); --glow-x: 85%;">
-<section id="about" class="section about">
-  <div class="section-head reveal">
-    <span class="eyebrow">field notes</span>
-    <h2>What Alzheimer's actually is</h2>
-    <p>The biology in plain terms, before the genetics.</p>
-  </div>
-  <div class="about-grid">
-    <div class="about-copy reveal">
-      <p>Alzheimer's disease is a progressive brain condition and the most common underlying cause of dementia — though not the only one; vascular dementia, Lewy body dementia and others also exist. It develops gradually, often starting with the buildup of amyloid-beta protein into plaques between neurons, followed by twisted strands of tau protein forming tangles inside them. Over years, this disrupts communication between brain cells and eventually causes the cells to die.</p>
-      <p>The disease typically moves through a preclinical stage with no outward symptoms, then mild cognitive impairment marked by subtle memory or thinking changes, and finally dementia, where symptoms interfere with daily life. Early changes usually appear in regions tied to memory before spreading to areas that govern language, reasoning and movement.</p>
-      <p>Age is the strongest overall risk factor, but genetics play a substantial role too — particularly for the rarer, early-onset form of the disease, which can appear before age 65 and is more likely to run in families with a clear inherited pattern.</p>
+<main>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div>
+      <span class="badge">Genetics × Neuroscience × Data</span>
+
+      <h1>
+        Explore the
+        <span class="gradient-text">genetic signals</span>
+        connected to Alzheimer’s research.
+      </h1>
+
+      <p>
+        An interactive educational website concept for exploring genes such as
+        <strong>APOE ε4, APP, PSEN1, PSEN2, and TREM2</strong>.
+        This site is designed as a research-learning interface,
+        not a medical diagnosis system.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="genetics.html">
+          Explore the genes →
+        </a>
+
+        <a class="btn btn-secondary" href="database.html">
+          Open research database
+        </a>
+      </div>
     </div>
-    <div class="stat-panel reveal">
-      <div class="stat-card" style="--stat-color: var(--teal);">
-        <div class="stat-num" data-count="7.4" data-suffix="M">0</div>
-        <div class="stat-label">Americans 65+ are living with Alzheimer's in 2026 — about 1 in 9 in that age group.</div>
-        <span class="stat-src">Alzheimer's Association, 2026 Facts and Figures</span>
+
+    <div class="dna-card" aria-label="Animated DNA visual">
+
+      <div class="dna-glow"></div>
+
+      <div class="dna">
+        <div class="strand one"></div>
+        <div class="strand two"></div>
+
+        <i class="rung r1"></i>
+        <i class="rung r2"></i>
+        <i class="rung r3"></i>
+        <i class="rung r4"></i>
+        <i class="rung r5"></i>
+        <i class="rung r6"></i>
       </div>
-      <div class="stat-card" style="--stat-color: var(--violet);">
-        <div class="stat-num" data-count="13.8" data-suffix="M">0</div>
-        <div class="stat-label">projected Americans affected by 2060 absent medical breakthroughs.</div>
-        <span class="stat-src">Alzheimer's Association / NIH, 2026</span>
-      </div>
-      <div class="stat-card" style="--stat-color: var(--amber);">
-        <div class="stat-num" data-count="409" data-prefix="$" data-suffix="B">0</div>
-        <div class="stat-label">estimated 2026 U.S. health and long-term care costs tied to dementia.</div>
-        <span class="stat-src">Alzheimer's Association, 2026 Facts and Figures</span>
-      </div>
+
+      <span class="orb a"></span>
+      <span class="orb b"></span>
+      <span class="orb c"></span>
+      <span class="orb d"></span>
+
     </div>
+
   </div>
 </section>
-</div>
 
-<!-- WARNING SIGNS ====================================================== -->
-<div class="section-shell" style="--glow-color: rgba(240,168,87,0.35); --glow-x: 12%;">
-<section id="signs" class="section signs">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--amber">know the difference</span>
-    <h2>Warning signs vs. typical aging</h2>
-    <p>Occasional forgetfulness is a normal part of getting older. These are the kinds of changes that are usually more significant — paired against what's typical, in general terms.</p>
-  </div>
-  <div class="compare-grid reveal">
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>Memory loss that disrupts daily life — forgetting recently learned information or relying heavily on notes and family members for things once handled independently.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Occasionally forgetting a name or appointment, then recalling it later.</p></div>
+
+<section class="section reveal">
+  <div class="container">
+
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">What this project does</div>
+        <h2>A visual map from genes to research questions.</h2>
+      </div>
+
+      <p>
+        Use the pages above as separate modules in your project.
+        Each module can be expanded with your own research and database.
+      </p>
     </div>
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>Difficulty planning or solving problems, such as trouble following a familiar recipe or keeping track of monthly bills.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Making an occasional error when balancing a checkbook or budget.</p></div>
+
+
+    <div class="grid grid-3">
+
+      <a class="card" href="about.html">
+        <div class="card-icon">🧠</div>
+        <h3>What is Alzheimer’s?</h3>
+        <p>
+          Learn the basics: symptoms, brain changes, risk factors,
+          and why Alzheimer’s is more complicated than one gene.
+        </p>
+      </a>
+
+
+      <a class="card" href="genetics.html">
+        <div class="card-icon">🧬</div>
+        <h3>Genetics Explorer</h3>
+        <p>
+          Compare risk-associated variants with rare genes
+          that can cause inherited Alzheimer’s disease.
+        </p>
+      </a>
+
+
+      <a class="card" href="database.html">
+        <div class="card-icon">🗃️</div>
+        <h3>Research Database</h3>
+        <p>
+          A ready-to-connect interface where you can later load
+          records from JSON, Firebase, MySQL, or an API.
+        </p>
+      </a>
+
     </div>
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>Losing track of dates, seasons, or where they are and how they got there.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Getting briefly confused about the day of the week, then remembering.</p></div>
+
+
+    <div class="stat-strip">
+
+      <div class="stat">
+        <strong>APOE ε4</strong>
+        <span>Major risk-associated allele</span>
+      </div>
+
+      <div class="stat">
+        <strong>APP</strong>
+        <span>Rare disease-causing variants</span>
+      </div>
+
+      <div class="stat">
+        <strong>PSEN1</strong>
+        <span>Inherited Alzheimer’s gene</span>
+      </div>
+
+      <div class="stat">
+        <strong>PSEN2</strong>
+        <span>Inherited Alzheimer’s gene</span>
+      </div>
+
     </div>
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>New problems finding the right word, or stopping mid-conversation with no idea how to continue.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Sometimes struggling to find the right word, but recovering quickly.</p></div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>Misplacing items in unusual places and being unable to retrace steps to find them.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Misplacing things occasionally and retracing steps to find them.</p></div>
-    </div>
-    <div class="compare-row">
-      <div class="compare-cell is-sign"><div class="compare-label sign">Possible sign</div><p>Withdrawal from work, hobbies or social activities, or noticeable changes in mood and personality.</p></div>
-      <div class="compare-cell"><div class="compare-label typical">Typical aging</div><p>Sometimes feeling tired of social obligations or set in one's ways.</p></div>
-    </div>
+
   </div>
 </section>
-</div>
 
-<!-- STAGES ============================================================= -->
-<div class="section-shell" style="--glow-color: rgba(239,111,142,0.3); --glow-x: 88%;">
-<section id="stages" class="section stages">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--rose">how it progresses</span>
-    <h2>The stages of Alzheimer's</h2>
-    <p>A real, ordered progression — though the pace varies a great deal between individuals, and not everyone with early stages goes on to develop later ones.</p>
-  </div>
-  <div class="timeline reveal">
-    <div class="timeline-item">
-      <div class="timeline-dot" style="--stage-color: var(--teal);">1</div>
-      <h3>Preclinical Alzheimer's <span class="stage-duration" style="--stage-color: var(--teal); --stage-dim: var(--teal-dim);">years, often decades, before symptoms</span></h3>
-      <p>Brain changes such as amyloid buildup can begin long before any noticeable symptoms appear. There's no outward sign at this stage — it's typically identified only through research imaging or biomarker studies.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot" style="--stage-color: var(--sky);">2</div>
-      <h3>Mild cognitive impairment <span class="stage-duration" style="--stage-color: var(--sky); --stage-dim: var(--sky-dim);">highly variable, often a few years</span></h3>
-      <p>Subtle memory or thinking changes become noticeable to the person or their family, but daily independence generally stays intact. Not everyone with MCI goes on to develop Alzheimer's dementia.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot" style="--stage-color: var(--amber);">3</div>
-      <h3>Mild dementia <span class="stage-duration" style="--stage-color: var(--amber); --stage-dim: var(--amber-dim);">roughly 2 years, on average</span></h3>
-      <p>Memory lapses grow more frequent and complex tasks — managing finances, planning an event — become harder, though the person is usually still largely independent.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot" style="--stage-color: var(--rose);">4</div>
-      <h3>Moderate dementia <span class="stage-duration" style="--stage-color: var(--rose); --stage-dim: var(--rose-dim);">often the longest stage</span></h3>
-      <p>Confusion deepens, personality and behavior changes can emerge, and help is typically needed with daily activities like dressing, bathing or preparing meals.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-dot" style="--stage-color: var(--violet);">5</div>
-      <h3>Severe dementia <span class="stage-duration" style="--stage-color: var(--violet); --stage-dim: var(--violet-dim);">typically 1–3 years</span></h3>
-      <p>The ability to communicate and control movement declines substantially, and around-the-clock care is generally required.</p>
-    </div>
-  </div>
-</section>
-</div>
 
-<!-- GENETICS =========================================================== -->
-<div class="section-shell" style="--glow-color: rgba(139,124,246,0.35); --glow-x: 10%;">
-<section id="markers" class="section markers">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--violet">known loci</span>
-    <h2>Genes tied to Alzheimer's risk</h2>
-    <p>Tap a card for a closer read. These are the genes most consistently linked to Alzheimer's in published research — not a checklist for self-diagnosis.</p>
-  </div>
-  <div class="gene-grid" id="geneGrid">
+<section class="section reveal">
+  <div class="container">
 
-    <article class="gene-card" tabindex="0" role="button" aria-expanded="false" style="--gene-color: var(--violet);">
-      <div class="gene-top">
+    <div class="interactive">
+
+      <div class="section-head">
         <div>
-          <div class="gene-name">APOE4</div>
-          <div class="gene-chr">chr19q13.32 · APOE ε4 allele</div>
+          <div class="eyebrow">Interactive concept</div>
+          <h2>Think in risk, not certainty.</h2>
         </div>
-        <span class="gene-tag tag-violet">strongest common factor</span>
-      </div>
-      <p class="gene-summary">The APOE gene comes in three common versions — ε2, ε3, ε4. Carrying one or two copies of ε4 is the strongest common genetic risk factor for the typical, late-onset form of Alzheimer's.</p>
-      <div class="gene-detail">
-        One ε4 copy: roughly 2–3× average risk.<br>
-        Two ε4 copies: roughly 8–12× average risk.<br>
-        Defined by SNPs rs429358 + rs7412.<br>
-        Not deterministic — many carriers never develop the disease, and many patients carry no ε4 at all.
-      </div>
-      <span class="gene-more">+ read more</span>
-    </article>
 
-    <article class="gene-card" tabindex="0" role="button" aria-expanded="false" style="--gene-color: var(--amber);">
-      <div class="gene-top">
+        <p>
+          APOE ε4 is a useful example of why a genetic marker
+          should not be presented as a simple yes/no Alzheimer’s test.
+        </p>
+      </div>
+
+
+      <div class="risk-layout">
+
         <div>
-          <div class="gene-name">PSEN1</div>
-          <div class="gene-chr">chr14q24.2 · Presenilin 1</div>
-        </div>
-        <span class="gene-tag tag-amber">early-onset</span>
-      </div>
-      <p class="gene-summary">The most common known cause of early-onset familial Alzheimer's. Mutations alter how the gamma-secretase complex processes amyloid precursor protein.</p>
-      <div class="gene-detail">
-        Inheritance: autosomal dominant — one mutated copy is generally enough to cause disease.<br>
-        Typical onset: 30s–50s.<br>
-        Accounts for the largest share of known familial early-onset cases.
-      </div>
-      <span class="gene-more">+ read more</span>
-    </article>
+          <label for="copies">
+            <strong>Example APOE ε4 copies</strong>
+          </label>
 
-    <article class="gene-card" tabindex="0" role="button" aria-expanded="false" style="--gene-color: var(--sky);">
-      <div class="gene-top">
+          <input
+            id="copies"
+            class="range"
+            type="range"
+            min="0"
+            max="2"
+            step="1"
+            value="1"
+          >
+
+          <div
+            style="margin-top:10px;color:var(--cyan);font-weight:800"
+            id="copiesValue"
+          >
+            1 copy
+          </div>
+        </div>
+
+
         <div>
-          <div class="gene-name">PSEN2</div>
-          <div class="gene-chr">chr1q42.13 · Presenilin 2</div>
+
+          <div class="risk-meter">
+            <div id="riskFill" class="risk-fill"></div>
+          </div>
+
+          <div id="riskMessage" class="risk-result"></div>
+
         </div>
-        <span class="gene-tag tag-sky">early-onset</span>
-      </div>
-      <p class="gene-summary">A close relative of PSEN1 with a similar role in amyloid processing. Mutations are rarer and tend to show more variable age of onset.</p>
-      <div class="gene-detail">
-        Inheritance: autosomal dominant, incomplete penetrance in some families.<br>
-        Onset can range more widely than PSEN1, into the 50s–60s.<br>
-        Far fewer known families affected worldwide than PSEN1.
-      </div>
-      <span class="gene-more">+ read more</span>
-    </article>
 
-    <article class="gene-card" tabindex="0" role="button" aria-expanded="false" style="--gene-color: var(--rose);">
-      <div class="gene-top">
-        <div>
-          <div class="gene-name">APP</div>
-          <div class="gene-chr">chr21q21.3 · Amyloid Precursor Protein</div>
-        </div>
-        <span class="gene-tag tag-rose">early-onset</span>
       </div>
-      <p class="gene-summary">Encodes the protein that amyloid-beta is cut from. Certain mutations increase production of the forms that clump into plaques.</p>
-      <div class="gene-detail">
-        Inheritance: autosomal dominant.<br>
-        Sits on chromosome 21 — people with Down syndrome (trisomy 21) carry an extra copy and face markedly higher, earlier risk.<br>
-        One of the first genes linked to familial Alzheimer's, identified in the late 1980s.
-      </div>
-      <span class="gene-more">+ read more</span>
-    </article>
 
-    <article class="gene-card" tabindex="0" role="button" aria-expanded="false" style="--gene-color: var(--mint);">
-      <div class="gene-top">
-        <div>
-          <div class="gene-name">TREM2</div>
-          <div class="gene-chr">chr6p21.1 · Myeloid receptor</div>
-        </div>
-        <span class="gene-tag tag-mint">risk modifier</span>
-      </div>
-      <p class="gene-summary">Involved in how microglia — the brain's immune cells — clear debris and respond to amyloid. Rare variants shift risk without directly causing disease.</p>
-      <div class="gene-detail">
-        Variant of interest: R47H (rs75932628).<br>
-        Associated with roughly 2–3× increased late-onset risk, similar in scale to a single APOE ε4 copy.<br>
-        Studied as a target for immune-based therapies.
-      </div>
-      <span class="gene-more">+ read more</span>
-    </article>
+    </div>
 
   </div>
 </section>
-</div>
 
-<!-- PREVENTION ========================================================= -->
-<div class="section-shell" style="--glow-color: rgba(110,231,168,0.35); --glow-x: 90%;">
-<section id="prevention" class="section prevention">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--mint">modifiable factors</span>
-    <h2>What research links to lower risk</h2>
-    <p>These factors are associated with lower dementia risk across large population studies. None of them guarantee prevention — especially for the rare, inherited early-onset forms driven by genes like PSEN1 — but they're the levers researchers keep coming back to.</p>
-  </div>
-  <div class="icon-grid reveal">
-    <div class="icon-card" style="--factor-color: var(--rose); --factor-dim: var(--rose-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M12 20.5c-4-2.5-8-6-8-10.5a4.5 4.5 0 0 1 8-2.8 4.5 4.5 0 0 1 8 2.8c0 4.5-4 8-8 10.5z"/></svg></div>
-      <h3>Cardiovascular health</h3>
-      <p>Managing blood pressure, cholesterol and diabetes supports blood flow to the brain.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--teal); --factor-dim: var(--teal-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><polyline points="2,13 7,13 9,6 13,19 16,10 22,10"/></svg></div>
-      <h3>Physical activity</h3>
-      <p>Regular movement is one of the most consistently studied protective habits.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--mint); --factor-dim: var(--mint-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M4 20c0-9 6-15 15-15-1 9-7 15-15 15z"/><path d="M4 20c3-3 6-6 12-11"/></svg></div>
-      <h3>Balanced diet</h3>
-      <p>Diets rich in vegetables, fish and whole grains are linked to slower cognitive decline.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--violet); --factor-dim: var(--violet-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M20 14.2A8.5 8.5 0 1 1 9.8 4a7 7 0 0 0 10.2 10.2z"/></svg></div>
-      <h3>Quality sleep</h3>
-      <p>Deep sleep helps the brain clear waste proteins, including amyloid-beta.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--amber); --factor-dim: var(--amber-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><circle cx="7" cy="12" r="3"/><circle cx="17" cy="12" r="3"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
-      <h3>Social connection</h3>
-      <p>Regular social engagement is associated with better long-term cognitive outcomes.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--sky); --factor-dim: var(--sky-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6v.5h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z"/></svg></div>
-      <h3>Mental engagement</h3>
-      <p>Learning, reading and other stimulating activities may help build cognitive reserve.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--rose); --factor-dim: var(--rose-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><line x1="6" y1="9" x2="6" y2="15"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="18" y1="9" x2="18" y2="15"/></svg></div>
-      <h3>Hearing health</h3>
-      <p>Untreated hearing loss is one of the largest known modifiable risk factors identified so far.</p>
-    </div>
-    <div class="icon-card" style="--factor-color: var(--teal); --factor-dim: var(--teal-dim);">
-      <div class="icon-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="5.5" y1="5.5" x2="18.5" y2="18.5"/></svg></div>
-      <h3>Limit alcohol &amp; avoid smoking</h3>
-      <p>Both are consistently linked to higher dementia risk in long-term studies.</p>
-    </div>
-  </div>
-</section>
-</div>
+</main>
 
-<!-- DIAGNOSIS =========================================================== -->
-<div class="section-shell" style="--glow-color: rgba(94,200,242,0.35); --glow-x: 12%;">
-<section id="diagnosis" class="section diagnosis">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--sky">clinical process</span>
-    <h2>How Alzheimer's is actually diagnosed</h2>
-    <p>The real pipeline behind a legitimate diagnosis — in order, because the order is the point. No single step stands alone.</p>
-  </div>
-  <ol class="pipeline-steps reveal">
-    <li class="pipeline-step">
-      <div class="step-num">01</div>
-      <h3>Clinical &amp; cognitive evaluation</h3>
-      <p>A doctor reviews medical history, runs cognitive tests covering memory and language, and talks with family about changes they've noticed.</p>
-    </li>
-    <li class="pipeline-step">
-      <div class="step-num">02</div>
-      <h3>Brain imaging</h3>
-      <p>MRI or CT scans help rule out other causes like strokes or tumors; PET scans can sometimes visualize amyloid or tau buildup directly.</p>
-    </li>
-    <li class="pipeline-step">
-      <div class="step-num">03</div>
-      <h3>Biomarker testing</h3>
-      <p>Cerebrospinal fluid analysis, and increasingly blood-based tests, can measure amyloid and tau protein levels to support a diagnosis.</p>
-    </li>
-    <li class="pipeline-step">
-      <div class="step-num">04</div>
-      <h3>Genetic counseling</h3>
-      <p>When early-onset or strong family history is present, counseling and testing for genes like PSEN1, PSEN2 or APP may be offered — always alongside professional interpretation.</p>
-    </li>
-  </ol>
-</section>
-</div>
-
-<!-- RISK EXPLORER ======================================================= -->
-<div class="section-shell" style="--glow-color: rgba(239,111,142,0.3); --glow-x: 85%;">
-<section id="risk" class="section risk-demo">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--rose">illustrative only — not a diagnostic tool</span>
-    <h2>Risk pattern explorer</h2>
-    <p>Select a genotype pattern to see how researchers generally categorize relative risk in population studies. This does not assess any real person and cannot diagnose Alzheimer's.</p>
-  </div>
-  <div class="risk-panel reveal">
-    <div class="risk-controls">
-      <div class="field">
-        <label for="genotype">APOE genotype</label>
-        <select id="genotype">
-          <option value="e2e2">ε2 / ε2</option>
-          <option value="e2e3">ε2 / ε3</option>
-          <option value="e3e3" selected>ε3 / ε3 (most common)</option>
-          <option value="e2e4">ε2 / ε4</option>
-          <option value="e3e4">ε3 / ε4</option>
-          <option value="e4e4">ε4 / ε4</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Additional factors</label>
-        <div style="display:flex; flex-direction:column; gap:12px; margin-top:4px;">
-          <label class="checkline"><input type="checkbox" id="familyHistory"> Family history of early-onset Alzheimer's</label>
-          <label class="checkline"><input type="checkbox" id="ageOver65" checked> Age 65 or older</label>
-        </div>
-      </div>
-    </div>
-    <div class="risk-output">
-      <span class="risk-badge" id="riskBadge">Average population risk</span>
-      <p class="risk-desc" id="riskDesc">The most common APOE genotype. Population studies use this as the baseline against which other genotypes are compared.</p>
-      <div class="risk-meter"><div class="risk-meter-fill" id="riskMeter" style="width:35%; background:var(--teal);"></div></div>
-      <p class="risk-note">This illustrates general patterns reported across population studies, not a personal risk score. Genetic risk is probabilistic, not deterministic — many APOE ε4 carriers never develop Alzheimer's, and many people without it do. Speak with a genetic counselor or physician for anything related to real testing.</p>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- FAQ ================================================================= -->
-<div class="section-shell" style="--glow-color: rgba(139,124,246,0.3); --glow-x: 10%;">
-<section id="faq" class="section faq">
-  <div class="section-head reveal">
-    <span class="eyebrow eyebrow--violet">myths &amp; facts</span>
-    <h2>Common questions, answered</h2>
-    <p>Straightforward answers to the questions that come up most.</p>
-  </div>
-  <div class="faq-list reveal" id="faqList">
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Is Alzheimer's just a normal part of aging?<span class="faq-plus"></span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">No. Age is the strongest risk factor, but Alzheimer's is a disease process, not an inevitable part of growing older. Many people live into their 90s and beyond without developing it.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Does everyone with the APOE4 gene get Alzheimer's?<span class="faq-plus"></span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">No. APOE ε4 raises risk, sometimes substantially, but it isn't deterministic — many carriers never develop the disease, and many people diagnosed with it carry no ε4 allele at all.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Can younger people get Alzheimer's?<span class="faq-plus"></span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">Yes. Early-onset Alzheimer's can appear before age 65, and is more often linked to rare inherited mutations in genes like PSEN1, PSEN2 or APP.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Is there a cure?</button>
-      <div class="faq-answer"><div class="faq-answer-inner">Not yet. Some approved treatments can modestly slow progression or ease symptoms for certain patients, and research into disease-modifying therapies is active and ongoing.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">If a parent had Alzheimer's, will I definitely get it too?<span class="faq-plus"></span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">Not necessarily. Most cases aren't caused by a single inherited gene — risk comes from a combination of many genetic and lifestyle factors together, not a guaranteed inheritance pattern.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Can genetic testing diagnose Alzheimer's?<span class="faq-plus"></span></button>
-      <div class="faq-answer"><div class="faq-answer-inner">No. Genetic testing can show risk factors, not deliver a diagnosis. An actual diagnosis requires clinical evaluation, cognitive testing, and often imaging or biomarker tests.</div></div>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- RESOURCES =========================================================== -->
-<div class="section-shell" style="--glow-color: rgba(45,212,196,0.3); --glow-x: 88%;">
-<section id="resources" class="section resources">
-  <div class="section-head reveal">
-    <span class="eyebrow">go deeper</span>
-    <h2>Trusted places to learn more</h2>
-    <p>If you or someone you love is concerned about Alzheimer's, these organizations offer real support, current research, and pathways to genetic counseling.</p>
-  </div>
-  <div class="resource-grid reveal">
-    <a class="resource-card" href="https://www.alz.org" target="_blank" rel="noopener">
-      <span class="r-org">Nonprofit · 24/7 helpline</span>
-      <h3>Alzheimer's Association</h3>
-      <p>Support groups, caregiver resources, and the annual Facts and Figures report.</p>
-      <span class="r-link">alz.org →</span>
-    </a>
-    <a class="resource-card" href="https://www.nia.nih.gov/health/alzheimers-and-dementia" target="_blank" rel="noopener">
-      <span class="r-org">NIH · federal research</span>
-      <h3>National Institute on Aging</h3>
-      <p>The federal government's lead research hub on Alzheimer's and related dementias.</p>
-      <span class="r-link">nia.nih.gov →</span>
-    </a>
-    <a class="resource-card" href="https://findageneticcounselor.nsgc.org/" target="_blank" rel="noopener">
-      <span class="r-org">Directory · genetic counseling</span>
-      <h3>Find a Genetic Counselor</h3>
-      <p>A directory from the National Society of Genetic Counselors to find a certified counselor near you.</p>
-      <span class="r-link">findageneticcounselor.nsgc.org →</span>
-    </a>
-  </div>
-</section>
-</div>
 
 <footer class="footer">
-  <div class="footer-inner">
-    <div style="display:flex; flex-direction:column; gap:14px; max-width:560px;">
-      <div class="footer-brand">
-        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="2" width="4" height="22" rx="2" fill="#2DD4C4"/>
-          <rect x="18" y="2" width="4" height="22" rx="2" fill="#8B7CF6" opacity="0.55"/>
-          <circle cx="6" cy="9" r="3" fill="#0B1220" stroke="#2DD4C4" stroke-width="1.6"/>
-        </svg>
-        LOCUS
-      </div>
-      <p class="footer-disclaimer">LOCUS is an educational reference, not a medical device or diagnostic service. Nothing on this site should be used to diagnose, treat, or assess any individual's risk of Alzheimer's disease. If you have questions about genetic testing or your own risk, talk to a physician or a certified genetic counselor.</p>
+
+  <div class="container footer-grid">
+
+    <div>
+      <strong>NeuroGene</strong><br>
+      Educational prototype for genetics and neuroscience.
     </div>
-    <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#signs">Warning signs</a>
-      <a href="#stages">Stages</a>
-      <a href="#markers">Genetics</a>
-      <a href="#prevention">Prevention</a>
-      <a href="#diagnosis">Diagnosis</a>
-      <a href="#faq">FAQ</a>
+
+    <div>
+      Built with HTML • CSS • JavaScript<br>
+      <span id="year"></span>
     </div>
+
   </div>
+
 </footer>
 
 <script src="script.js"></script>
+
 </body>
 </html>

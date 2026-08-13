@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research Database | NeuroGene</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="container nav-inner">
+
+    <a class="brand" href="index.html">
+      <span class="brand-mark"></span>
+      <span>NeuroGene</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Alzheimer’s</a>
+      <a href="genetics.html">Genetics</a>
+      <a href="database.html">Database</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="eyebrow">
+      Module 03 · Data Layer
+    </div>
+
+    <h1>
+      Your
+      <span class="gradient-text">research database</span>
+      starts here.
+    </h1>
+
+    <p>
+      This is currently a front-end demo with clearly labeled sample records.
+      Later, you can replace the JavaScript array with your own backend or API connection.
+    </p>
+
+    <div class="notice">
+
+      <strong>Privacy:</strong>
+
+      Do not put real patient-identifiable or sensitive medical information
+      into a public demo site. Build authentication, access controls,
+      encryption, and appropriate data governance before using real research
+      or clinical data.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="db-toolbar">
+
+      <input
+        id="dbSearch"
+        type="search"
+        placeholder="Search sample ID, gene, variant…"
+      >
+
+      <select id="dbFilter">
+
+        <option>All</option>
+        <option>APOE</option>
+        <option>APP</option>
+        <option>PSEN1</option>
+        <option>PSEN2</option>
+        <option>TREM2</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Record ID</th>
+            <th>Sample</th>
+            <th>Gene</th>
+            <th>Variant</th>
+            <th>Status</th>
+            <th>Note</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="dbTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="eyebrow">
+          Future integration
+        </div>
+
+        <h2>
+          Connect the data later.
+        </h2>
+
+      </div>
+
+      <p>
+        The visual interface is already separated from the data source,
+        so you can swap in a real database without redesigning every page.
+      </p>
+
+    </div>
+
+
+    <div class="grid grid-4">
+
+      <div class="card">
+
+        <div class="card-icon">🧾</div>
+
+        <h3>
+          JSON
+        </h3>
+
+        <p>
+          Fastest option for a class demo or static research dataset.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">☁️</div>
+
+        <h3>
+          Firebase
+        </h3>
+
+        <p>
+          Useful for a hosted app with authentication and realtime data.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">🗄️</div>
+
+        <h3>
+          MySQL
+        </h3>
+
+        <p>
+          Good for a traditional server-backed relational database.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">🔌</div>
+
+        <h3>
+          REST API
+        </h3>
+
+        <p>
+          Connect your UI to a Python/Flask, Node.js, or other backend.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+  <div class="container footer-grid">
+
+    <div>
+      <strong>NeuroGene</strong><br>
+      Database interface demo.
+    </div>
+
+    <div>
+      <a href="index.html">
+        ← Back home
+      </a>
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

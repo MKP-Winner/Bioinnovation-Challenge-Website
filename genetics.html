@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Genetics Explorer | NeuroGene</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="container nav-inner">
+
+    <a class="brand" href="index.html">
+      <span class="brand-mark"></span>
+      <span>NeuroGene</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Alzheimer’s</a>
+      <a href="genetics.html">Genetics</a>
+      <a href="database.html">Database</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="eyebrow">
+      Module 02 · Gene Explorer
+    </div>
+
+    <h1>
+      From
+      <span class="gradient-text">APOE ε4</span>
+      to other genes.
+    </h1>
+
+    <p>
+      The “AMO-4” name you mentioned is likely a reference to
+      <strong>APOE ε4</strong>, a well-known Alzheimer’s risk-associated allele.
+      This page separates risk-associated genes from rare deterministic genes
+      so the interface does not overstate what genetic data can tell us.
+    </p>
+
+    <div class="notice">
+      <strong>Science note:</strong>
+      APOE ε4 increases risk but does not mean an individual will develop
+      Alzheimer’s. Rare variants in APP, PSEN1, and PSEN2 are associated
+      with dominantly inherited Alzheimer’s disease.
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="grid grid-3">
+
+
+      <button class="card gene-card" data-gene="APOE">
+
+        <span class="gene-code">
+          APOE
+        </span>
+
+        <span class="gene-type">
+          Risk-associated
+        </span>
+
+        <h3 style="margin-top:14px">
+          ε4
+        </h3>
+
+        <p>
+          Major genetic risk factor for late-onset Alzheimer’s.
+        </p>
+
+      </button>
+
+
+      <button class="card gene-card" data-gene="APP">
+
+        <span class="gene-code">
+          APP
+        </span>
+
+        <span class="gene-type">
+          Deterministic · rare
+        </span>
+
+        <h3 style="margin-top:14px">
+          Amyloid precursor protein
+        </h3>
+
+        <p>
+          Rare inherited variants can cause dominantly inherited Alzheimer’s.
+        </p>
+
+      </button>
+
+
+      <button class="card gene-card" data-gene="PSEN1">
+
+        <span class="gene-code">
+          PSEN1
+        </span>
+
+        <span class="gene-type">
+          Deterministic · rare
+        </span>
+
+        <h3 style="margin-top:14px">
+          Presenilin 1
+        </h3>
+
+        <p>
+          Rare variants are a major cause of inherited early-onset disease.
+        </p>
+
+      </button>
+
+
+      <button class="card gene-card" data-gene="PSEN2">
+
+        <span class="gene-code">
+          PSEN2
+        </span>
+
+        <span class="gene-type">
+          Deterministic · rare
+        </span>
+
+        <h3 style="margin-top:14px">
+          Presenilin 2
+        </h3>
+
+        <p>
+          Rare variants can cause dominantly inherited Alzheimer’s.
+        </p>
+
+      </button>
+
+
+      <button class="card gene-card" data-gene="TREM2">
+
+        <span class="gene-code">
+          TREM2
+        </span>
+
+        <span class="gene-type">
+          Risk-associated
+        </span>
+
+        <h3 style="margin-top:14px">
+          Microglial signaling
+        </h3>
+
+        <p>
+          A research focus involving immune and microglial biology.
+        </p>
+
+      </button>
+
+
+      <div class="card" id="geneDetails">
+
+        <div class="eyebrow">
+          Interactive panel
+        </div>
+
+        <h3>
+          Click a gene
+        </h3>
+
+        <p>
+          Choose a gene card to see how its role is described in research.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="card">
+
+      <div class="eyebrow">
+        Research references
+      </div>
+
+      <h3>
+        Start with trusted sources
+      </h3>
+
+      <p style="margin-top:8px;color:var(--muted)">
+        For the scientific content in this prototype, use primary
+        or authoritative health research sources and keep your
+        database records linked to their source.
+      </p>
+
+      <p style="margin-top:12px">
+
+        <a
+          class="btn btn-secondary"
+          href="https://www.nia.nih.gov/health/alzheimers-disease-genetics-fact-sheet"
+          target="_blank"
+          rel="noopener"
+        >
+          NIA genetics fact sheet ↗
+        </a>
+
+        <a
+          class="btn btn-secondary"
+          href="https://www.alz.org/alzheimers-dementia/research-and-progress/earlier-diagnosis"
+          target="_blank"
+          rel="noopener"
+        >
+          Alzheimer’s Association ↗
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+
+        <div class="eyebrow">
+          How to structure the project
+        </div>
+
+        <h2>
+          Separate “signal” from “diagnosis.”
+        </h2>
+
+      </div>
+
+      <p>
+        Your eventual database can store sequence or variant information,
+        research metadata, and study outcomes while your interface clearly
+        labels what is known versus uncertain.
+      </p>
+
+    </div>
+
+
+    <div class="grid grid-2">
+
+      <div class="card">
+
+        <h3>
+          Risk-associated
+        </h3>
+
+        <p>
+          Examples include APOE ε4 and certain TREM2 variants.
+          These are studied as factors that can change probability
+          or biological pathways—not as a binary diagnosis.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>
+          Rare disease-causing variants
+        </h3>
+
+        <p>
+          Examples include specific variants in APP, PSEN1,
+          and PSEN2. These are linked to rare dominantly inherited
+          Alzheimer’s disease.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+  <div class="container footer-grid">
+
+    <div>
+      <strong>NeuroGene</strong><br>
+      Genetics explorer.
+    </div>
+
+    <div>
+      <a href="database.html">
+        Next: Research Database →
+      </a>
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
