@@ -444,3 +444,141 @@ if (year) {
     new Date().getFullYear();
 
 }
+
+
+/* =========================
+   MODEL PREDICTION
+========================= */
+
+const predictionForm =
+  document.getElementById('predictionForm');
+
+const predictionFields =
+  document.getElementById('predictionFields');
+
+const modelStatus =
+  document.getElementById('modelStatus');
+
+const predictButton =
+  document.getElementById('predictButton');
+
+const predictionResult =
+  document.getElementById('predictionResult');
+
+const API_URL =
+  'http://127.0.0.1:5000';
+
+const demoValues = {
+  Age: 67,
+  Height: 162,
+  Weight: 68.5,
+  BMI: 26.1,
+  Sex: 'Female',
+  Education_Level: 'Bachelors',
+  Occupation: 'Retired',
+  Marital_Status: 'Married',
+  Ethnicity: 'Caucasian',
+  Residence_Type: 'Urban',
+  Socioeconomic_Status: 'Medium',
+  Smoking_Status: 'Never',
+  Alcohol_Consumption: 'No Alcohol Use',
+  Physical_Activity_Level: 'Moderate',
+  Diet_Quality: 'Good',
+  Sleep_Quality: 'Good',
+  Stress_Level: 'Moderate',
+  Social_Engagement: 'Moderate'
+};
+
+const readableFieldName = field =>
+  field.replaceAll('_', ' ');
+
+const createField = (field, allowedValues) => {
+  const wrapper = document.createElement('label');
+  wrapper.className = 'prediction-field';
+  wrapper.textContent = readableFieldName(field);
+
+  let input;
+  if (allowedValues) {
+    input = document.createElement('select');
+    allowedValues.forEach(value => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      input.append(option);
+    });
+  } else {
+    input = document.createElement('input');
+    input.type = 'number';
+    input.step = 'any';
+  }
+
+  input.name = field;
+  input.value = demoValues[field] ?? (allowedValues ? allowedValues[0] : 0);
+  input.required = true;
+  wrapper.append(input);
+  return wrapper;
+};
+
+const loadPredictionForm = async () => {
+  if (!predictionForm) return;
+
+  try {
+    const response = await fetch(`${API_URL}/schema`);
+    if (!response.ok) throw new Error('The API returned an error.');
+    const schema = await response.json();
+    const categorical = schema.categorical_allowed_values;
+
+    schema.numeric_features
+      .concat(schema.categorical_features)
+      .forEach(field => {
+        predictionFields.append(
+          createField(field, categorical[field])
+        );
+      });
+
+    predictButton.disabled = false;
+    modelStatus.textContent = 'Model fields loaded. Demonstration values are pre-filled.';
+  } catch (error) {
+    modelStatus.textContent = 'The local API is not running. Start it with: python predict_api.py';
+  }
+};
+
+if (predictionForm) {
+  loadPredictionForm();
+
+  predictionForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    predictButton.disabled = true;
+    predictButton.textContent = 'Predicting...';
+    predictionResult.hidden = false;
+    predictionResult.textContent = 'Sending inputs to the local model...';
+
+    const payload = {};
+    new FormData(predictionForm).forEach((value, field) => {
+      const input = predictionForm.elements[field];
+      payload[field] = input.tagName === 'INPUT' ? Number(value) : value;
+    });
+
+    try {
+      const response = await fetch(`${API_URL}/predict`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Prediction failed.');
+
+      const probabilities = Object.entries(result.probabilities)
+        .sort(([, first], [, second]) => second - first)
+        .map(([label, probability]) =>
+          `${label}: ${(probability * 100).toFixed(1)}%`
+        ).join(' · ');
+      predictionResult.innerHTML = `<strong>Prediction: ${result.diagnosis}</strong><br>${probabilities}`;
+    } catch (error) {
+      predictionResult.textContent = error.message;
+    } finally {
+      predictButton.disabled = false;
+      predictButton.textContent = 'Run prediction';
+    }
+  });
+}

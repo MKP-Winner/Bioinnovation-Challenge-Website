@@ -1,0 +1,165 @@
+{
+  "numeric_features": [
+    "Age",
+    "Height",
+    "Weight",
+    "BMI",
+    "Sleep_Duration",
+    "Water_Intake",
+    "Caffeine_Intake",
+    "Exercise_Frequency_Weekly",
+    "Family_History_Alzheimer",
+    "Family_History_Parkinson",
+    "Family_History_ALS",
+    "Family_History_Dementia",
+    "Family_History_Neurological_Disorders",
+    "Hypertension",
+    "Diabetes",
+    "Hyperlipidemia",
+    "Stroke",
+    "Heart_Disease",
+    "Depression",
+    "Anxiety",
+    "Thyroid_Disorder",
+    "Head_Injury",
+    "Autoimmune_Disease",
+    "Systolic_BP",
+    "Diastolic_BP",
+    "Heart_Rate",
+    "Respiratory_Rate",
+    "Temperature",
+    "Oxygen_Saturation",
+    "Hemoglobin",
+    "RBC",
+    "WBC",
+    "Platelets",
+    "Fasting_Glucose",
+    "HbA1c",
+    "Creatinine",
+    "Urea",
+    "Sodium",
+    "Potassium",
+    "AST",
+    "ALT",
+    "Albumin",
+    "Total_Cholesterol",
+    "HDL",
+    "LDL",
+    "Triglycerides",
+    "Vitamin_B12",
+    "Vitamin_D",
+    "TSH",
+    "CRP",
+    "ESR",
+    "Amyloid_Beta",
+    "Total_Tau",
+    "Phosphorylated_Tau",
+    "Neurofilament_Light",
+    "Alpha_Synuclein",
+    "GFAP",
+    "APOE_e4",
+    "SNCA",
+    "LRRK2",
+    "MAPT",
+    "HTT_Expansion",
+    "C9orf72",
+    "Caffeine_Intake_Imputed",
+    "Vitamin_D_Imputed",
+    "MoCA_Score_Imputed",
+    "Neurofilament_Light_Imputed"
+  ],
+  "categorical_features": [
+    "Sex",
+    "Education_Level",
+    "Occupation",
+    "Marital_Status",
+    "Ethnicity",
+    "Residence_Type",
+    "Socioeconomic_Status",
+    "Smoking_Status",
+    "Alcohol_Consumption",
+    "Physical_Activity_Level",
+    "Diet_Quality",
+    "Sleep_Quality",
+    "Stress_Level",
+    "Social_Engagement"
+  ],
+  "categorical_allowed_values": {
+    "Sex": [
+      "Female",
+      "Male"
+    ],
+    "Education_Level": [
+      "Bachelors",
+      "High School",
+      "Masters",
+      "PhD"
+    ],
+    "Occupation": [
+      "Manual Labor",
+      "Office Worker",
+      "Professional",
+      "Retired",
+      "Unemployed"
+    ],
+    "Marital_Status": [
+      "Divorced",
+      "Married",
+      "Single",
+      "Widowed"
+    ],
+    "Ethnicity": [
+      "African American",
+      "Asian",
+      "Caucasian",
+      "Hispanic",
+      "Other"
+    ],
+    "Residence_Type": [
+      "Rural",
+      "Suburban",
+      "Urban"
+    ],
+    "Socioeconomic_Status": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Smoking_Status": [
+      "Current",
+      "Former",
+      "Never"
+    ],
+    "Alcohol_Consumption": [
+      "Heavy",
+      "Moderate",
+      "No Alcohol Use"
+    ],
+    "Physical_Activity_Level": [
+      "High",
+      "Low",
+      "Moderate"
+    ],
+    "Diet_Quality": [
+      "Fair",
+      "Good",
+      "Poor"
+    ],
+    "Sleep_Quality": [
+      "Fair",
+      "Good",
+      "Poor"
+    ],
+    "Stress_Level": [
+      "High",
+      "Low",
+      "Moderate"
+    ],
+    "Social_Engagement": [
+      "High",
+      "Low",
+      "Moderate"
+    ]
+  },
+  "target_column": "Diagnosis"
+}

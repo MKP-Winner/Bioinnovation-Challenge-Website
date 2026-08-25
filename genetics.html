@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Genetics Explorer | NeuroGene</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Gene Lab | ROSA</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,14 +16,14 @@
 
     <a class="brand" href="index.html">
       <span class="brand-mark"></span>
-      <span>NeuroGene</span>
+      <span>ROSA</span>
     </a>
 
     <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">Alzheimer’s</a>
-      <a href="genetics.html">Genetics</a>
-      <a href="database.html">Database</a>
+      <a href="index.html">Calculator</a>
+      <a href="about.html">Learn</a>
+      <a href="genetics.html">Gene Lab</a>
+      <a href="database.html">Research Data</a>
     </nav>
 
   </div>
@@ -59,6 +59,41 @@
       APOE ε4 increases risk but does not mean an individual will develop
       Alzheimer’s. Rare variants in APP, PSEN1, and PSEN2 are associated
       with dominantly inherited Alzheimer’s disease.
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="model-predictor">
+
+  <div class="container">
+
+    <div class="card">
+
+      <div class="eyebrow">Local model</div>
+
+      <h2>Explore a model prediction</h2>
+
+      <p style="margin-top:8px;color:var(--muted)">
+        Enter research or demonstration values, then send them to the local
+        prediction API. This is not a medical diagnosis or clinical risk estimate.
+      </p>
+
+      <div id="modelStatus" class="notice" role="status" aria-live="polite">
+        Connect the API to load the model fields.
+      </div>
+
+      <form id="predictionForm" class="prediction-form">
+        <div id="predictionFields" class="prediction-fields"></div>
+        <button class="btn btn-primary" type="submit" id="predictButton" disabled>
+          Run prediction
+        </button>
+      </form>
+
+      <div id="predictionResult" class="risk-result" hidden></div>
+
     </div>
 
   </div>
@@ -322,7 +357,7 @@
   <div class="container footer-grid">
 
     <div>
-      <strong>NeuroGene</strong><br>
+      <strong>ROSA</strong><br>
       Genetics explorer.
     </div>
 

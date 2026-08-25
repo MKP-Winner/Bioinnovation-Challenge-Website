@@ -3,249 +3,60 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Educational prototype exploring genetics and Alzheimer's disease research.">
-  <title>NeuroGene | Alzheimer's Genetics Explorer</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="ROSA Alzheimer's research prediction calculator and learning system.">
+  <title>ROSA | Alzheimer's Prediction Calculator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header class="navbar">
   <div class="container nav-inner">
-    <a class="brand" href="index.html">
-      <span class="brand-mark"></span>
-      <span>NeuroGene</span>
-    </a>
-
+    <a class="brand" href="index.html" aria-label="ROSA home"><span class="brand-mark"></span><span>ROSA</span></a>
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <a href="about.html">Alzheimer’s</a>
-      <a href="genetics.html">Genetics</a>
-      <a href="database.html">Database</a>
+      <a href="index.html">Calculator</a>
+      <a href="about.html">Learn</a>
+      <a href="genetics.html">Gene Lab</a>
+      <a href="database.html">Research Data</a>
     </nav>
   </div>
 </header>
-
 <main>
-
-<section class="hero">
-  <div class="container hero-grid">
-
-    <div>
-      <span class="badge">Genetics × Neuroscience × Data</span>
-
-      <h1>
-        Explore the
-        <span class="gradient-text">genetic signals</span>
-        connected to Alzheimer’s research.
-      </h1>
-
-      <p>
-        An interactive educational website concept for exploring genes such as
-        <strong>APOE ε4, APP, PSEN1, PSEN2, and TREM2</strong>.
-        This site is designed as a research-learning interface,
-        not a medical diagnosis system.
-      </p>
-
-      <div class="cta-row">
-        <a class="btn btn-primary" href="genetics.html">
-          Explore the genes →
-        </a>
-
-        <a class="btn btn-secondary" href="database.html">
-          Open research database
-        </a>
-      </div>
-    </div>
-
-    <div class="dna-card" aria-label="Animated DNA visual">
-
-      <div class="dna-glow"></div>
-
-      <div class="dna">
-        <div class="strand one"></div>
-        <div class="strand two"></div>
-
-        <i class="rung r1"></i>
-        <i class="rung r2"></i>
-        <i class="rung r3"></i>
-        <i class="rung r4"></i>
-        <i class="rung r5"></i>
-        <i class="rung r6"></i>
-      </div>
-
-      <span class="orb a"></span>
-      <span class="orb b"></span>
-      <span class="orb c"></span>
-      <span class="orb d"></span>
-
-    </div>
-
-  </div>
-</section>
-
-
-<section class="section reveal">
-  <div class="container">
-
-    <div class="section-head">
+  <section class="hero rosa-hero">
+    <div class="container hero-grid">
       <div>
-        <div class="eyebrow">What this project does</div>
-        <h2>A visual map from genes to research questions.</h2>
-      </div>
-
-      <p>
-        Use the pages above as separate modules in your project.
-        Each module can be expanded with your own research and database.
-      </p>
-    </div>
-
-
-    <div class="grid grid-3">
-
-      <a class="card" href="about.html">
-        <div class="card-icon">🧠</div>
-        <h3>What is Alzheimer’s?</h3>
-        <p>
-          Learn the basics: symptoms, brain changes, risk factors,
-          and why Alzheimer’s is more complicated than one gene.
-        </p>
-      </a>
-
-
-      <a class="card" href="genetics.html">
-        <div class="card-icon">🧬</div>
-        <h3>Genetics Explorer</h3>
-        <p>
-          Compare risk-associated variants with rare genes
-          that can cause inherited Alzheimer’s disease.
-        </p>
-      </a>
-
-
-      <a class="card" href="database.html">
-        <div class="card-icon">🗃️</div>
-        <h3>Research Database</h3>
-        <p>
-          A ready-to-connect interface where you can later load
-          records from JSON, Firebase, MySQL, or an API.
-        </p>
-      </a>
-
-    </div>
-
-
-    <div class="stat-strip">
-
-      <div class="stat">
-        <strong>APOE ε4</strong>
-        <span>Major risk-associated allele</span>
-      </div>
-
-      <div class="stat">
-        <strong>APP</strong>
-        <span>Rare disease-causing variants</span>
-      </div>
-
-      <div class="stat">
-        <strong>PSEN1</strong>
-        <span>Inherited Alzheimer’s gene</span>
-      </div>
-
-      <div class="stat">
-        <strong>PSEN2</strong>
-        <span>Inherited Alzheimer’s gene</span>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-<section class="section reveal">
-  <div class="container">
-
-    <div class="interactive">
-
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">Interactive concept</div>
-          <h2>Think in risk, not certainty.</h2>
+        <span class="badge">ROSA // Research &amp; Outreach System for Alzheimer's</span>
+        <h1>Signals in.<br><span class="gradient-text">Clarity out.</span></h1>
+        <p>A research-facing calculator for exploring how demographic, lifestyle, laboratory, and genetic inputs map to a trained neurodegenerative disease model.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#model-predictor">Open calculator ↓</a>
+          <a class="btn btn-secondary" href="about.html">Understand the science</a>
         </div>
-
-        <p>
-          APOE ε4 is a useful example of why a genetic marker
-          should not be presented as a simple yes/no Alzheimer’s test.
-        </p>
+        <div class="hero-readout"><span><strong>45K</strong> records</span><span><strong>6</strong> output classes</span><span><strong>0.9996</strong> test AUC</span></div>
       </div>
-
-
-      <div class="risk-layout">
-
-        <div>
-          <label for="copies">
-            <strong>Example APOE ε4 copies</strong>
-          </label>
-
-          <input
-            id="copies"
-            class="range"
-            type="range"
-            min="0"
-            max="2"
-            step="1"
-            value="1"
-          >
-
-          <div
-            style="margin-top:10px;color:var(--cyan);font-weight:800"
-            id="copiesValue"
-          >
-            1 copy
-          </div>
-        </div>
-
-
-        <div>
-
-          <div class="risk-meter">
-            <div id="riskFill" class="risk-fill"></div>
-          </div>
-
-          <div id="riskMessage" class="risk-result"></div>
-
-        </div>
-
+      <div class="hero-console" aria-label="ROSA system status">
+        <div class="console-top"><span><span class="status-dot"></span> ROSA CORE / ONLINE</span><span>LIVE</span></div>
+        <div class="console-graphic"><div class="console-ring ring-one"></div><div class="console-ring ring-two"></div><div class="console-core">R</div><span class="signal signal-one"></span><span class="signal signal-two"></span><span class="signal signal-three"></span></div>
+        <div class="console-footer"><span>MODEL: RANDOM FOREST</span><span>v1.0.0</span></div>
       </div>
-
     </div>
+  </section>
 
-  </div>
-</section>
+  <section class="section" id="model-predictor">
+    <div class="container">
+      <div class="section-head"><div><div class="eyebrow">01 / Prediction workspace</div><h2>Run a research scenario.</h2></div><p>Fields are loaded directly from the model schema. Demo values are provided so you can test the full loop immediately.</p></div>
+      <div class="card predictor-shell">
+        <div class="predictor-aside"><div class="eyebrow">ROSA intake</div><h3>Build a profile</h3><p>Complete the structured inputs below. The model returns a predicted class and probability distribution.</p><div class="aside-rule"></div><p class="micro-copy"><strong>Research use only.</strong><br>This tool does not diagnose Alzheimer’s or predict an individual’s future.</p></div>
+        <div class="predictor-main"><div id="modelStatus" class="notice" role="status" aria-live="polite">Connect the API to load the model fields.</div><form id="predictionForm" class="prediction-form"><div id="predictionFields" class="prediction-fields"></div><button class="btn btn-primary" type="submit" id="predictButton" disabled>Run prediction →</button></form><div id="predictionResult" class="risk-result" hidden></div></div>
+      </div>
+    </div>
+  </section>
 
+  <section class="section reveal"><div class="container"><div class="grid grid-3">
+    <a class="card module-card" href="about.html"><span class="module-index">02</span><h3>Learn the context</h3><p>Understand what the model can and cannot say about Alzheimer’s research.</p><span class="module-link">Open module →</span></a>
+    <a class="card module-card" href="genetics.html"><span class="module-index">03</span><h3>Explore gene signals</h3><p>Compare APOE, APP, PSEN1, PSEN2, and TREM2 in the Gene Lab.</p><span class="module-link">Open module →</span></a>
+    <a class="card module-card" href="database.html"><span class="module-index">04</span><h3>Browse research data</h3><p>Search the illustrative records powering the research interface.</p><span class="module-link">Open module →</span></a>
+  </div></div></section>
 </main>
-
-
-<footer class="footer">
-
-  <div class="container footer-grid">
-
-    <div>
-      <strong>NeuroGene</strong><br>
-      Educational prototype for genetics and neuroscience.
-    </div>
-
-    <div>
-      Built with HTML • CSS • JavaScript<br>
-      <span id="year"></span>
-    </div>
-
-  </div>
-
-</footer>
-
+<footer class="footer"><div class="container footer-grid"><div><strong>ROSA</strong><br>Research &amp; Outreach System for Alzheimer's</div><div>Educational prototype · <span id="year"></span></div></div></footer>
 <script src="script.js"></script>
-
 </body>
 </html>
