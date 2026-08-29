@@ -8,11 +8,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a class="skip-link" href="#model-predictor">Skip to calculator</a>
 <header class="navbar">
   <div class="container nav-inner">
     <a class="brand" href="index.html" aria-label="ROSA home"><span class="brand-mark"></span><span>ROSA</span></a>
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="index.html">Calculator</a>
+      <a class="active" href="index.html" aria-current="page">Calculator</a>
       <a href="about.html">Learn</a>
       <a href="genetics.html">Gene Lab</a>
       <a href="database.html">Research Data</a>
@@ -25,33 +26,38 @@
       <div>
         <span class="badge">ROSA // Research &amp; Outreach System for Alzheimer's</span>
         <h1>Signals in.<br><span class="gradient-text">Clarity out.</span></h1>
-        <p>A research-facing calculator for exploring how demographic, lifestyle, laboratory, and genetic inputs map to a trained neurodegenerative disease model.</p>
+        <p>Answer ten focused questions to explore how a research model estimates similarity to Alzheimer's patterns.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#model-predictor">Open calculator ↓</a>
+          <a class="btn btn-primary" href="#model-predictor">Open calculator <span aria-hidden="true">↓</span></a>
           <a class="btn btn-secondary" href="about.html">Understand the science</a>
         </div>
-        <div class="hero-readout"><span><strong>45K</strong> records</span><span><strong>6</strong> output classes</span><span><strong>0.9996</strong> test AUC</span></div>
+        <div class="hero-readout"><span><strong>45K</strong> records</span><span><strong>10</strong> questions</span><span><strong>AD</strong> focus</span></div>
       </div>
       <div class="hero-console" aria-label="ROSA system status">
         <div class="console-top"><span><span class="status-dot"></span> ROSA CORE / ONLINE</span><span>LIVE</span></div>
         <div class="console-graphic"><div class="console-ring ring-one"></div><div class="console-ring ring-two"></div><div class="console-core">R</div><span class="signal signal-one"></span><span class="signal signal-two"></span><span class="signal signal-three"></span></div>
-        <div class="console-footer"><span>MODEL: RANDOM FOREST</span><span>v1.0.0</span></div>
+        <div class="console-footer"><span>MODEL: HIST GRADIENT</span><span>v1.0.0</span></div>
       </div>
     </div>
   </section>
 
   <section class="section" id="model-predictor">
     <div class="container">
-      <div class="section-head"><div><div class="eyebrow">01 / Prediction workspace</div><h2>Run a research scenario.</h2></div><p>Fields are loaded directly from the model schema. Demo values are provided so you can test the full loop immediately.</p></div>
+      <div class="section-head"><div><div class="eyebrow">01 / Alzheimer's calculator</div><h2>Start with the estimate.</h2></div><p>Answer ten focused questions about a profile. ROSA returns one Alzheimer's research estimate, not a diagnosis.</p></div>
       <div class="card predictor-shell">
-        <div class="predictor-aside"><div class="eyebrow">ROSA intake</div><h3>Build a profile</h3><p>Complete the structured inputs below. The model returns a predicted class and probability distribution.</p><div class="aside-rule"></div><p class="micro-copy"><strong>Research use only.</strong><br>This tool does not diagnose Alzheimer’s or predict an individual’s future.</p></div>
-        <div class="predictor-main"><div id="modelStatus" class="notice" role="status" aria-live="polite">Connect the API to load the model fields.</div><form id="predictionForm" class="prediction-form"><div id="predictionFields" class="prediction-fields"></div><button class="btn btn-primary" type="submit" id="predictButton" disabled>Run prediction →</button></form><div id="predictionResult" class="risk-result" hidden></div></div>
+        <div class="predictor-aside"><div class="eyebrow">ROSA intake</div><h3>Ten signals, one focused screen</h3><p>Use the short intake below to explore how a research model weighs age, family history, health history, medication count, activity, and genetics.</p><div class="aside-rule"></div><p class="micro-copy"><strong>Private by design.</strong><br>Your answers are used only to create this on-screen research estimate and are not saved by ROSA.</p><p class="micro-copy"><strong>Research use only.</strong><br>This tool does not diagnose Alzheimer's or predict an individual’s future.</p></div>
+        <div class="predictor-main">
+          <div id="modelStatus" class="notice" role="status" aria-live="polite">Connecting to the research model…</div>
+          <div class="intake-progress" aria-label="Calculator completion"><div class="intake-progress-copy"><span id="intakeProgressText">0 of 10 answers complete</span><button class="text-button" type="button" id="loadDemoButton" disabled>Use demo profile</button></div><div class="intake-progress-track" aria-hidden="true"><span id="intakeProgressBar"></span></div></div>
+          <form id="predictionForm" class="prediction-form"><div id="predictionFields" class="prediction-fields" aria-live="polite"></div><div class="prediction-actions"><button class="btn btn-primary" type="submit" id="predictButton" disabled>Run research estimate <span aria-hidden="true">→</span></button><button class="text-button" type="reset" id="resetPredictionButton" disabled>Clear answers</button></div></form>
+          <div id="predictionResult" class="risk-result" role="status" aria-live="polite" tabindex="-1" hidden></div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section reveal"><div class="container"><div class="grid grid-3">
-    <a class="card module-card" href="about.html"><span class="module-index">02</span><h3>Learn the context</h3><p>Understand what the model can and cannot say about Alzheimer’s research.</p><span class="module-link">Open module →</span></a>
+    <a class="card module-card" href="about.html"><span class="module-index">02</span><h3>Learn the context</h3><p>Understand what the model can and cannot say about Alzheimer's research.</p><span class="module-link">Open module →</span></a>
     <a class="card module-card" href="genetics.html"><span class="module-index">03</span><h3>Explore gene signals</h3><p>Compare APOE, APP, PSEN1, PSEN2, and TREM2 in the Gene Lab.</p><span class="module-link">Open module →</span></a>
     <a class="card module-card" href="database.html"><span class="module-index">04</span><h3>Browse research data</h3><p>Search the illustrative records powering the research interface.</p><span class="module-link">Open module →</span></a>
   </div></div></section>

@@ -675,6 +675,22 @@ h1{
   color:#11182e;
 }
 
+.prediction-subfields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.prediction-subfields input{
+  width:100%;
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  background:rgba(255,255,255,.06);
+}
+
 .prediction-form .btn{
   margin-top:4px;
 }
@@ -1923,4 +1939,157 @@ tbody tr:hover{
     padding-top:55px;
   }
 
+}
+
+main{
+  display:flex;
+  flex-direction:column;
+}
+
+#model-predictor{
+  order:-1;
+}
+
+/* Calculator experience refinements */
+.skip-link{
+  position:fixed;
+  left:16px;
+  top:-60px;
+  z-index:200;
+  padding:10px 14px;
+  border-radius:10px;
+  color:#07101c;
+  background:var(--cyan);
+  font-weight:800;
+  transition:top .2s;
+}
+
+.skip-link:focus{
+  top:16px;
+}
+
+.intake-progress{
+  margin:18px 0 4px;
+  padding:14px 0 2px;
+  border-top:1px solid var(--border);
+}
+
+.intake-progress-copy,
+.prediction-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.intake-progress-copy{
+  color:var(--muted);
+  font-size:.86rem;
+  font-weight:700;
+}
+
+.intake-progress-track{
+  height:6px;
+  margin-top:10px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+}
+
+.intake-progress-track span{
+  display:block;
+  width:0;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  transition:width .22s ease;
+}
+
+.text-button{
+  padding:7px 0;
+  border:0;
+  color:var(--cyan);
+  background:transparent;
+  font:inherit;
+  font-size:.86rem;
+  font-weight:800;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.text-button:hover,
+.text-button:focus-visible{
+  color:var(--text);
+}
+
+.text-button:disabled{
+  color:var(--muted);
+  cursor:not-allowed;
+}
+
+.prediction-fields{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  max-height:none;
+  overflow:visible;
+}
+
+.prediction-field input::placeholder{
+  color:#8490ac;
+}
+
+.prediction-actions{
+  justify-content:flex-start;
+  margin-top:4px;
+}
+
+.prediction-form .btn{
+  margin-top:0;
+}
+
+#predictionResult{
+  padding:0;
+  border:1px solid transparent;
+  border-radius:16px;
+  transition:padding .2s, border-color .2s, background .2s;
+}
+
+#predictionResult.has-result,
+#predictionResult.has-error{
+  padding:16px 18px;
+}
+
+#predictionResult.has-result{
+  border-color:rgba(77,232,255,.32);
+  background:linear-gradient(135deg,rgba(77,232,255,.1),rgba(167,108,255,.08));
+}
+
+#predictionResult.has-error{
+  border-color:rgba(255,122,89,.38);
+  color:#ffd3c7;
+  background:rgba(255,122,89,.09);
+}
+
+@media(max-width:560px){
+  .intake-progress-copy,
+  .prediction-actions{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .prediction-actions .btn{
+    width:100%;
+    justify-content:center;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+  }
 }

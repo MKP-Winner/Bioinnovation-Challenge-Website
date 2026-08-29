@@ -1,0 +1,7 @@
+flask>=3.1,<4
+gunicorn>=22.0,<23
+joblib>=1.5,<2
+numpy>=2.0,<3
+pandas>=3.0,<4
+# model.joblib was trained with 1.8.0; newer releases cannot reliably load it.
+scikit-learn==1.8.0

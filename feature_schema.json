@@ -1,165 +1,49 @@
 {
-  "numeric_features": [
+  "intake_features": [
     "Age",
-    "Height",
-    "Weight",
+    "Sex",
     "BMI",
     "Sleep_Duration",
-    "Water_Intake",
-    "Caffeine_Intake",
     "Exercise_Frequency_Weekly",
     "Family_History_Alzheimer",
-    "Family_History_Parkinson",
-    "Family_History_ALS",
     "Family_History_Dementia",
-    "Family_History_Neurological_Disorders",
-    "Hypertension",
-    "Diabetes",
-    "Hyperlipidemia",
-    "Stroke",
-    "Heart_Disease",
-    "Depression",
-    "Anxiety",
-    "Thyroid_Disorder",
     "Head_Injury",
-    "Autoimmune_Disease",
-    "Systolic_BP",
-    "Diastolic_BP",
-    "Heart_Rate",
-    "Respiratory_Rate",
-    "Temperature",
-    "Oxygen_Saturation",
-    "Hemoglobin",
-    "RBC",
-    "WBC",
-    "Platelets",
-    "Fasting_Glucose",
-    "HbA1c",
-    "Creatinine",
-    "Urea",
-    "Sodium",
-    "Potassium",
-    "AST",
-    "ALT",
-    "Albumin",
-    "Total_Cholesterol",
-    "HDL",
-    "LDL",
-    "Triglycerides",
-    "Vitamin_B12",
-    "Vitamin_D",
-    "TSH",
-    "CRP",
-    "ESR",
-    "Amyloid_Beta",
-    "Total_Tau",
-    "Phosphorylated_Tau",
-    "Neurofilament_Light",
-    "Alpha_Synuclein",
-    "GFAP",
-    "APOE_e4",
-    "SNCA",
-    "LRRK2",
-    "MAPT",
-    "HTT_Expansion",
-    "C9orf72",
-    "Caffeine_Intake_Imputed",
-    "Vitamin_D_Imputed",
-    "MoCA_Score_Imputed",
-    "Neurofilament_Light_Imputed"
+    "Medication_Count",
+    "APOE_e4"
+  ],
+  "numeric_features": [
+    "Age",
+    "BMI",
+    "Sleep_Duration",
+    "Exercise_Frequency_Weekly",
+    "Family_History_Alzheimer",
+    "Family_History_Dementia",
+    "Head_Injury",
+    "Medication_Count",
+    "APOE_e4"
   ],
   "categorical_features": [
-    "Sex",
-    "Education_Level",
-    "Occupation",
-    "Marital_Status",
-    "Ethnicity",
-    "Residence_Type",
-    "Socioeconomic_Status",
-    "Smoking_Status",
-    "Alcohol_Consumption",
-    "Physical_Activity_Level",
-    "Diet_Quality",
-    "Sleep_Quality",
-    "Stress_Level",
-    "Social_Engagement"
+    "Sex"
   ],
+  "question_count": 10,
+  "feature_descriptions": {
+    "Age": "What is your current age?",
+    "Sex": "What is your biological sex?",
+    "BMI": "What is your body mass index (BMI)?",
+    "Sleep_Duration": "On an average night, about how many hours do you sleep?",
+    "Exercise_Frequency_Weekly": "In a typical week, how many days do you exercise?",
+    "Family_History_Alzheimer": "Has a close family member (parent or sibling) been diagnosed with Alzheimer's disease?",
+    "Family_History_Dementia": "Has a close family member been diagnosed with any other form of dementia?",
+    "Head_Injury": "Have you ever had a significant head injury (e.g., concussion with loss of consciousness)?",
+    "Medication_Count": "How many prescription medications do you currently take regularly?",
+    "APOE_e4": "Do you carry an APOE-e4 gene variant? (only answer if you've had genetic testing -- leave as \"Not sure\" otherwise)"
+  },
   "categorical_allowed_values": {
     "Sex": [
       "Female",
       "Male"
-    ],
-    "Education_Level": [
-      "Bachelors",
-      "High School",
-      "Masters",
-      "PhD"
-    ],
-    "Occupation": [
-      "Manual Labor",
-      "Office Worker",
-      "Professional",
-      "Retired",
-      "Unemployed"
-    ],
-    "Marital_Status": [
-      "Divorced",
-      "Married",
-      "Single",
-      "Widowed"
-    ],
-    "Ethnicity": [
-      "African American",
-      "Asian",
-      "Caucasian",
-      "Hispanic",
-      "Other"
-    ],
-    "Residence_Type": [
-      "Rural",
-      "Suburban",
-      "Urban"
-    ],
-    "Socioeconomic_Status": [
-      "High",
-      "Low",
-      "Medium"
-    ],
-    "Smoking_Status": [
-      "Current",
-      "Former",
-      "Never"
-    ],
-    "Alcohol_Consumption": [
-      "Heavy",
-      "Moderate",
-      "No Alcohol Use"
-    ],
-    "Physical_Activity_Level": [
-      "High",
-      "Low",
-      "Moderate"
-    ],
-    "Diet_Quality": [
-      "Fair",
-      "Good",
-      "Poor"
-    ],
-    "Sleep_Quality": [
-      "Fair",
-      "Good",
-      "Poor"
-    ],
-    "Stress_Level": [
-      "High",
-      "Low",
-      "Moderate"
-    ],
-    "Social_Engagement": [
-      "High",
-      "Low",
-      "Moderate"
     ]
   },
-  "target_column": "Diagnosis"
+  "target_column": "Diagnosis",
+  "target_definition": "AD when Diagnosis is AD; Not AD for every other dataset class"
 }

@@ -465,41 +465,161 @@ const predictButton =
 const predictionResult =
   document.getElementById('predictionResult');
 
+const intakeProgressText =
+  document.getElementById('intakeProgressText');
+
+const intakeProgressBar =
+  document.getElementById('intakeProgressBar');
+
+const loadDemoButton =
+  document.getElementById('loadDemoButton');
+
+const resetPredictionButton =
+  document.getElementById('resetPredictionButton');
+
 const API_URL =
-  'http://127.0.0.1:5000';
+  location.origin === 'null'
+    ? 'http://127.0.0.1:5000'
+    : location.origin;
 
 const demoValues = {
   Age: 67,
-  Height: 162,
-  Weight: 68.5,
-  BMI: 26.1,
   Sex: 'Female',
-  Education_Level: 'Bachelors',
-  Occupation: 'Retired',
-  Marital_Status: 'Married',
-  Ethnicity: 'Caucasian',
-  Residence_Type: 'Urban',
-  Socioeconomic_Status: 'Medium',
-  Smoking_Status: 'Never',
-  Alcohol_Consumption: 'No Alcohol Use',
-  Physical_Activity_Level: 'Moderate',
-  Diet_Quality: 'Good',
-  Sleep_Quality: 'Good',
-  Stress_Level: 'Moderate',
-  Social_Engagement: 'Moderate'
+  Sleep_Duration: 6,
+  Exercise_Frequency_Weekly: 3,
+  Family_History_Alzheimer: 0,
+  Family_History_Dementia: 0,
+  Head_Injury: 0,
+  Medication_Count: 2,
+  APOE_e4: 0,
+  Height_in: 65,
+  Weight_lb: 155
 };
+
+const inputConfig = {
+  Age: {min: 18, max: 120, step: 1, placeholder: 'e.g. 67'},
+  Sleep_Duration: {min: 0, max: 24, step: 0.5, placeholder: 'Hours'},
+  Exercise_Frequency_Weekly: {min: 0, max: 7, step: 1, placeholder: 'Days'},
+  Medication_Count: {min: 0, max: 100, step: 1, placeholder: 'Count'}
+};
+
+// Yes/No questions that map to 0/1 under the hood
+const binaryFields = new Set([
+  'Family_History_Alzheimer',
+  'Family_History_Dementia',
+  'Head_Injury'
+]);
+
+// Fields the model expects that are NOT asked directly -- they're
+// derived from friendlier sub-questions at submit time instead.
+const derivedFields = new Set(['BMI', 'APOE_e4']);
+
+let schemaDescriptions = {};
+let numericFields = new Set();
 
 const readableFieldName = field =>
   field.replaceAll('_', ' ');
 
+const updateIntakeProgress = () => {
+  if (!predictionForm || !intakeProgressText || !intakeProgressBar) return;
+  const requiredFields = [...predictionForm.querySelectorAll('[required]')];
+  const completed = requiredFields.filter(field => field.value !== '' && field.validity.valid).length;
+  const total = requiredFields.length;
+  intakeProgressText.textContent = `${completed} of ${total} answers complete`;
+  intakeProgressBar.style.width = `${total ? completed / total * 100 : 0}%`;
+};
+
+const clearPredictionResult = () => {
+  if (!predictionResult) return;
+  predictionResult.hidden = true;
+  predictionResult.classList.remove('has-result', 'has-error');
+  predictionResult.textContent = '';
+};
+
+const applyDemoProfile = () => {
+  if (!predictionForm) return;
+  Object.entries(demoValues).forEach(([field, value]) => {
+    const input = predictionForm.elements[field];
+    if (input) input.value = value;
+  });
+  clearPredictionResult();
+  updateIntakeProgress();
+  predictionForm.querySelector('[name="Age"]')?.focus();
+};
+
 const createField = (field, allowedValues) => {
   const wrapper = document.createElement('label');
   wrapper.className = 'prediction-field';
-  wrapper.textContent = readableFieldName(field);
+  wrapper.textContent = schemaDescriptions[field] || readableFieldName(field);
+
+  // BMI is asked as height + weight instead of a raw BMI number --
+  // most people know their height/weight, not their BMI off-hand.
+  if (field === 'BMI') {
+    wrapper.textContent = 'What is your approximate height and weight?';
+    const row = document.createElement('div');
+    row.className = 'prediction-subfields';
+
+    const heightInput = document.createElement('input');
+    heightInput.type = 'number';
+    heightInput.step = 'any';
+    heightInput.name = 'Height_in';
+    heightInput.placeholder = 'Height (inches)';
+    heightInput.min = '36';
+    heightInput.max = '96';
+    heightInput.inputMode = 'decimal';
+    heightInput.required = true;
+
+    const weightInput = document.createElement('input');
+    weightInput.type = 'number';
+    weightInput.step = 'any';
+    weightInput.name = 'Weight_lb';
+    weightInput.placeholder = 'Weight (lb)';
+    weightInput.min = '50';
+    weightInput.max = '700';
+    weightInput.inputMode = 'decimal';
+    weightInput.required = true;
+
+    row.append(heightInput, weightInput);
+    wrapper.append(row);
+    return wrapper;
+  }
+
+  // APOE-e4 genetic status is usually unknown unless someone has had
+  // genetic testing -- offer an honest "Not sure" option that the
+  // model treats as a missing value rather than forcing a guess.
+  if (field === 'APOE_e4') {
+    const input = document.createElement('select');
+    [['', 'Not sure / never tested'], ['0', 'No'], ['1', 'Yes']].forEach(([value, label]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      input.append(option);
+    });
+    input.name = field;
+    input.value = '';
+    wrapper.append(input);
+    return wrapper;
+  }
 
   let input;
-  if (allowedValues) {
+  if (binaryFields.has(field)) {
     input = document.createElement('select');
+    const placeholder = new Option('Select an answer', '');
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    input.append(placeholder);
+    [['0', 'No'], ['1', 'Yes']].forEach(([value, label]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      input.append(option);
+    });
+  } else if (allowedValues) {
+    input = document.createElement('select');
+    const placeholder = new Option('Select an option', '');
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    input.append(placeholder);
     allowedValues.forEach(value => {
       const option = document.createElement('option');
       option.value = value;
@@ -509,12 +629,16 @@ const createField = (field, allowedValues) => {
   } else {
     input = document.createElement('input');
     input.type = 'number';
-    input.step = 'any';
+    const config = inputConfig[field] || {step: 'any', placeholder: 'Enter a value'};
+    input.step = config.step;
+    input.placeholder = config.placeholder;
+    if (config.min !== undefined) input.min = config.min;
+    if (config.max !== undefined) input.max = config.max;
+    input.inputMode = 'decimal';
   }
 
   input.name = field;
-  input.value = demoValues[field] ?? (allowedValues ? allowedValues[0] : 0);
-  input.required = true;
+  input.required = field !== 'APOE_e4';
   wrapper.append(input);
   return wrapper;
 };
@@ -527,9 +651,10 @@ const loadPredictionForm = async () => {
     if (!response.ok) throw new Error('The API returned an error.');
     const schema = await response.json();
     const categorical = schema.categorical_allowed_values;
+    schemaDescriptions = schema.feature_descriptions || {};
+    numericFields = new Set(schema.numeric_features);
 
-    schema.numeric_features
-      .concat(schema.categorical_features)
+    (schema.intake_features || schema.numeric_features.concat(schema.categorical_features))
       .forEach(field => {
         predictionFields.append(
           createField(field, categorical[field])
@@ -537,14 +662,36 @@ const loadPredictionForm = async () => {
       });
 
     predictButton.disabled = false;
-    modelStatus.textContent = 'Model fields loaded. Demonstration values are pre-filled.';
+    loadDemoButton.disabled = false;
+    resetPredictionButton.disabled = false;
+    modelStatus.textContent = 'Model ready. Answer the questions below or load a fictional demo profile.';
+    updateIntakeProgress();
   } catch (error) {
-    modelStatus.textContent = 'The local API is not running. Start it with: python predict_api.py';
+    modelStatus.textContent = 'The calculator is unavailable. Start the API, then open http://127.0.0.1:5000/ in your browser.';
   }
 };
 
 if (predictionForm) {
   loadPredictionForm();
+
+  predictionForm.addEventListener('input', () => {
+    clearPredictionResult();
+    updateIntakeProgress();
+  });
+
+  predictionForm.addEventListener('change', () => {
+    clearPredictionResult();
+    updateIntakeProgress();
+  });
+
+  predictionForm.addEventListener('reset', () => {
+    setTimeout(() => {
+      clearPredictionResult();
+      updateIntakeProgress();
+    });
+  });
+
+  loadDemoButton?.addEventListener('click', applyDemoProfile);
 
   predictionForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -555,9 +702,23 @@ if (predictionForm) {
 
     const payload = {};
     new FormData(predictionForm).forEach((value, field) => {
-      const input = predictionForm.elements[field];
-      payload[field] = input.tagName === 'INPUT' ? Number(value) : value;
+      // Height_in / Weight_lb are collected only to derive BMI --
+      // they aren't sent to the model directly.
+      if (field === 'Height_in' || field === 'Weight_lb') return;
+
+      if (field === 'APOE_e4') {
+        payload[field] = value === '' ? null : Number(value);
+        return;
+      }
+
+      payload[field] = numericFields.has(field) ? Number(value) : value;
     });
+
+    const heightIn = Number(predictionForm.elements['Height_in']?.value);
+    const weightLb = Number(predictionForm.elements['Weight_lb']?.value);
+    if (heightIn && weightLb) {
+      payload.BMI = Number((703 * weightLb / (heightIn * heightIn)).toFixed(1));
+    }
 
     try {
       const response = await fetch(`${API_URL}/predict`, {
@@ -568,13 +729,23 @@ if (predictionForm) {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Prediction failed.');
 
-      const probabilities = Object.entries(result.probabilities)
-        .sort(([, first], [, second]) => second - first)
-        .map(([label, probability]) =>
-          `${label}: ${(probability * 100).toFixed(1)}%`
-        ).join(' · ');
-      predictionResult.innerHTML = `<strong>Prediction: ${result.diagnosis}</strong><br>${probabilities}`;
+      const signal = result.alzheimer_probability < .2
+        ? 'Lower similarity to AD-labeled research records'
+        : result.alzheimer_probability < .5
+          ? 'Mixed similarity to AD-labeled research records'
+          : 'Higher similarity to AD-labeled research records';
+      const probability = (result.alzheimer_probability * 100).toFixed(1);
+      predictionResult.classList.remove('has-error');
+      predictionResult.classList.add('has-result');
+      predictionResult.innerHTML = `<strong>Research estimate: ${probability}% Alzheimer’s pattern</strong><br><span>This result is not a diagnosis or a prediction of an individual’s future.</span>`;
+      const title = document.createElement('strong');
+      title.textContent = `Synthetic-data prediction: ${probability}% AD-pattern match`;
+      const explanation = document.createElement('span');
+      explanation.textContent = ` ${signal}. This percentage is generated from synthetic research data and is not a diagnosis, clinical risk score, or prediction of an individual’s future.`;
+      predictionResult.replaceChildren(title, explanation);
     } catch (error) {
+      predictionResult.classList.remove('has-result');
+      predictionResult.classList.add('has-error');
       predictionResult.textContent = error.message;
     } finally {
       predictButton.disabled = false;
