@@ -646,7 +646,7 @@ const createField = (field, allowedValues) => {
 const loadPredictionForm = async () => {
   if (!predictionForm) return;
 
-  try {
+ 
     const response = await fetch(`${API_URL}/schema`);
     if (!response.ok) throw new Error('The API returned an error.');
     const schema = await response.json();
@@ -666,9 +666,6 @@ const loadPredictionForm = async () => {
     resetPredictionButton.disabled = false;
     modelStatus.textContent = 'Model ready. Answer the questions below or load a fictional demo profile.';
     updateIntakeProgress();
-  } catch (error) {
-    modelStatus.textContent = 'The calculator is unavailable. Start the API, then open http://127.0.0.1:5000/ in your browser.';
-  }
 };
 
 if (predictionForm) {
